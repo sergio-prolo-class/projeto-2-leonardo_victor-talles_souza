@@ -26,4 +26,6 @@ public final class Constantes {
     public static final int ARQUEIRO_FLECHAS_INICIAL = 5;
     public static final int ARQUEIRO_FLECHAS_PRODUCAO = 10;
 
+    public static final int PADDING = 50;
+
 }

@@ -1,9 +1,15 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
+import ifsc.joe.domain.impl.Aldeao;
+import ifsc.joe.domain.impl.Arqueiro;
+import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
 
 import javax.swing.*;
+import java.lang.reflect.Constructor;
+import java.sql.Array;
 import java.util.Random;
 
 /**
@@ -62,11 +68,11 @@ public class PainelControles {
      * Configura todos os listeners dos botões de criação
      */
     private void configurarBotoesCriacao() {
-        bCriaAldeao.addActionListener(e -> criarAldeaoAleatorio());
+        bCriaAldeao.addActionListener(e -> criarPersonagem(Aldeao.class));
 
-        bCriaArqueiro.addActionListener(e -> criarArqueiroAleatorio());
+        bCriaArqueiro.addActionListener(e -> criarPersonagem(Arqueiro.class));
 
-        bCriaCavaleiro.addActionListener(e -> criarCavaleiroAleatorio());
+        bCriaCavaleiro.addActionListener(e -> criarPersonagem(Cavaleiro.class));
     }
 
     /**
@@ -89,37 +95,33 @@ public class PainelControles {
     }
 
     /**
-     * Cria um aldeão em posição aleatória na tela.
+     * Cria um personagem nas coordenadas X e Y.
      */
-    private void criarAldeaoAleatorio() {
-        final int PADDING = 50;
-        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
-        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
-
-        getTela().criarAldeao(posX, posY);
+    private void criarPersonagem(Class<? extends Personagem> clazz) {
+        int[] pos = sortearPosicaoAleatoria();
+        try {
+            Constructor<? extends Personagem> personagem = clazz.getConstructor(int.class, int.class);
+            Personagem p = personagem.newInstance(pos[0], pos[1]);
+            getTela().criarPersonagem(p);
+        } catch (Exception e) {
+            // não sei se pode colocar
+            // TODO melhorar o tratamento
+            System.err.println("Erro ao criar personagem: " + e.getMessage());
+        }
     }
 
     /**
-     * Cria um aldeão em posição aleatória na tela.
+     * Metodo para fazer o sorteio da posição inicial
+     *
+     * @return
      */
-    private void criarCavaleiroAleatorio() {
-        final int PADDING = 50;
-        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
-        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
-
-        getTela().criarCavaleiro(posX, posY);
+    private int[] sortearPosicaoAleatoria() {
+        int[] xy = new int[2];
+        xy[0] = sorteio.nextInt(painelTela.getWidth() - Constantes.PADDING);
+        xy[1] = sorteio.nextInt(painelTela.getHeight() - Constantes.PADDING);
+        return xy;
     }
 
-    /**
-     * Cria um arqueiro em posição aleatória na tela.
-     */
-    private void criarArqueiroAleatorio() {
-        final int PADDING = 50;
-        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
-        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
-
-        getTela().criarArqueiro(posX, posY);
-    }
 
     /**
      * Exibe mensagem informando que a funcionalidade ainda não foi implementada.
