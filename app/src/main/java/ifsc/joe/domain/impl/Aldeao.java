@@ -1,24 +1,33 @@
 package ifsc.joe.domain.impl;
 
+import ifsc.joe.domain.api.ComMontaria;
+import ifsc.joe.domain.api.Coletador;
+import ifsc.joe.domain.consts.Constantes;
+import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.Recurso;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
+import java.util.Set;
 
-public class Aldeao {
+public class Aldeao extends Personagem implements ComMontaria, Coletador {
 
-    public static final String NOME_IMAGEM = "aldeao";
+    public static final Set<Recurso> COLETAVEIS;
+    private boolean montado;
+    private int comidaColetada;
+    private int ouroColetado;
 
-    private int posX, posY;
-    private boolean atacando;
-    private Image icone;
+    static {
+        COLETAVEIS = Set.of(Recurso.COMIDA, Recurso.OURO);
+    }
 
-    public Aldeao(int x, int y) {
-        this.icone = this.carregarImagem(NOME_IMAGEM);
-        this.posX = x;
-        this.posY = y;
-        this.atacando = false;
+    public Aldeao(int posX, int posY) {
+        super(posX, posY,
+                Constantes.NOME_IMAGEM_ALDEAO,
+                Constantes.ALDEAO_VELOCIDADE,
+                Constantes.ALDEAO_VIDA_INICIAL);
+        this.icone = this.carregarImagem(this.nomeImagemBase);
     }
 
     /**
@@ -27,46 +36,38 @@ public class Aldeao {
      *
      * @param g objeto do JPanel que será usado para desenhar o Aldeão
      */
+    @Override
     public void desenhar(Graphics g, JPanel painel) {
-        // verificando qual imagem carregar
-        this.icone = this.carregarImagem(NOME_IMAGEM + (atacando ? "2" : ""));
+        // verificando se ta vivo
+        if (this.getVida() < 0) return;
+        // verifica se ta montado
+        this.icone = this.carregarImagem(nomeImagemBase = (montado ? "cavaleiro" : "aldeao"));
         // desenhando de fato a imagem no pai
         g.drawImage(this.icone, this.posX, this.posY, painel);
     }
 
     /**
-     * Atualiza as coordenadas X e Y do personagem
-     *
-     * @param direcao indica a direcao a ir.
+     * Metodo para alternar montaria do
      */
-    public void mover(Direcao direcao, int maxLargura, int maxAltura) {
-        switch (direcao) {
-            case CIMA     -> this.posY -= 10;
-            case BAIXO    -> this.posY += 10;
-            case ESQUERDA -> this.posX -= 10;
-            case DIREITA  -> this.posX += 10;
-        }
-
-        //Não deixa a imagem ser desenhada fora dos limites do JPanel pai
-        this.posX = Math.min(Math.max(0, this.posX), maxLargura - this.icone.getWidth(null));
-        this.posY = Math.min(Math.max(0, this.posY), maxAltura - this.icone.getHeight(null));
-    }
-
-
-    public void atacar() {
-        this.atacando = !this.atacando;
+    @Override
+    public void alternarMontado() {
+        this.montado = !this.montado;
+        this.velocidade = this.montado
+                ? Constantes.ALDEAO_VELOCIDADE_MONTADO
+                : Constantes.ALDEAO_VELOCIDADE;
     }
 
     /**
-     * Metodo auxiliar para carregar uma imagem do disco
+     * Verifica se é possível coletar o item
      *
-     * @param imagem Caminho da imagem
-     * @return Retorna um objeto Image
+     * @param recurso
+     * @return
      */
-    private Image carregarImagem(String imagem) {
-        return new ImageIcon(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("./"+imagem+".png")
-        )).getImage();
+    @Override
+    public boolean coletar(Recurso recurso) {
+        if (!COLETAVEIS.contains(recurso)) return false;
+        if (recurso == Recurso.OURO) this.ouroColetado++;
+        if (recurso == Recurso.COMIDA) this.comidaColetada++;
+        return true;
     }
-
 }

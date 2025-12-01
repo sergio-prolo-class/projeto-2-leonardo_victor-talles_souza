@@ -1,5 +1,6 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.enums.Direcao;
 
 import javax.swing.*;
@@ -41,6 +42,7 @@ public class PainelControles {
      * Configura todos os listeners dos botões.
      */
     private void configurarListeners() {
+        configurarBotoesMovimentar();
         configurarBotoesMovimento();
         configurarBotoesCriacao();
         configurarBotaoAtaque();
@@ -50,10 +52,10 @@ public class PainelControles {
      * Configura todos os listeners dos botões de movimento
      */
     private void configurarBotoesMovimento() {
-        buttonCima.addActionListener(e -> getTela().movimentarAldeoes(Direcao.CIMA));
-        buttonBaixo.addActionListener(e -> getTela().movimentarAldeoes(Direcao.BAIXO));
-        buttonEsquerda.addActionListener(e -> getTela().movimentarAldeoes(Direcao.ESQUERDA));
-        buttonDireita.addActionListener(e -> getTela().movimentarAldeoes(Direcao.DIREITA));
+        buttonCima.addActionListener(e -> getTela().movimentarPersonagem(Direcao.CIMA));
+        buttonBaixo.addActionListener(e -> getTela().movimentarPersonagem(Direcao.BAIXO));
+        buttonEsquerda.addActionListener(e -> getTela().movimentarPersonagem(Direcao.ESQUERDA));
+        buttonDireita.addActionListener(e -> getTela().movimentarPersonagem(Direcao.DIREITA));
     }
 
     /**
@@ -62,22 +64,28 @@ public class PainelControles {
     private void configurarBotoesCriacao() {
         bCriaAldeao.addActionListener(e -> criarAldeaoAleatorio());
 
-        bCriaArqueiro.addActionListener(e -> {
-            //TODO: Implementar criação de arqueiro
-            mostrarMensagemNaoImplementado("Criar Arqueiro");
-        });
+        bCriaArqueiro.addActionListener(e -> criarArqueiroAleatorio());
 
-        bCriaCavaleiro.addActionListener(e -> {
-            //TODO: Implementar criação de cavaleiro
-            mostrarMensagemNaoImplementado("Criar Cavaleiro");
-        });
+        bCriaCavaleiro.addActionListener(e -> criarCavaleiroAleatorio());
+    }
+
+    /**
+     * Configura todos os listeners dos botões de seleção
+     */
+    private void configurarBotoesMovimentar() {
+        todosRadioButton.addActionListener(e -> configurarBotoesMovimento());
+
+        // TODO selecionar
+        aldeaoRadioButton.addActionListener( e -> mostrarMensagemNaoImplementado("selecionar aldeão"));
+        arqueiroRadioButton.addActionListener(e -> mostrarMensagemNaoImplementado("selecionar arqueiro"));
+        cavaleiroRadioButton.addActionListener(e -> mostrarMensagemNaoImplementado("selecionar cavaleiro"));
     }
 
     /**
      * Configura o listener do botão de ataque
      */
     private void configurarBotaoAtaque() {
-        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
+//        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
     }
 
     /**
@@ -89,6 +97,28 @@ public class PainelControles {
         int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
 
         getTela().criarAldeao(posX, posY);
+    }
+
+    /**
+     * Cria um aldeão em posição aleatória na tela.
+     */
+    private void criarCavaleiroAleatorio() {
+        final int PADDING = 50;
+        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
+        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
+
+        getTela().criarCavaleiro(posX, posY);
+    }
+
+    /**
+     * Cria um arqueiro em posição aleatória na tela.
+     */
+    private void criarArqueiroAleatorio() {
+        final int PADDING = 50;
+        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
+        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
+
+        getTela().criarArqueiro(posX, posY);
     }
 
     /**

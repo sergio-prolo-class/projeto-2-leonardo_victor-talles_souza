@@ -1,4 +1,4 @@
-package ifsc.joe.domain.consts;
+package ifsc.joe.domain.api;
 
 import ifsc.joe.enums.Recurso;
 
