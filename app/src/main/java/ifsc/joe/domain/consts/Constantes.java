@@ -1,6 +1,6 @@
 package ifsc.joe.domain.consts;
 
-public class Constantes {
+public final class Constantes {
 
     // Constates da criação das imagens
     public static final String NOME_IMAGEM_ALDEAO = "aldeao";
