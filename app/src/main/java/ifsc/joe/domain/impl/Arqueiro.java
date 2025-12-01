@@ -2,7 +2,7 @@ package ifsc.joe.domain.impl;
 
 import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.api.Guerreiro;
-import ifsc.joe.domain.consts.Constantes;
+import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.enums.Recurso;
 

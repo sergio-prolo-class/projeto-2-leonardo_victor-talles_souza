@@ -1,6 +1,6 @@
 package ifsc.joe.ui;
 
-import ifsc.joe.domain.consts.Constantes;
+import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
@@ -9,7 +9,6 @@ import ifsc.joe.enums.Direcao;
 
 import javax.swing.*;
 import java.lang.reflect.Constructor;
-import java.sql.Array;
 import java.util.Random;
 
 /**

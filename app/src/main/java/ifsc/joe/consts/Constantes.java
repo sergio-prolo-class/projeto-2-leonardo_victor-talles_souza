@@ -1,4 +1,4 @@
-package ifsc.joe.domain.consts;
+package ifsc.joe.consts;
 
 public final class Constantes {
 
