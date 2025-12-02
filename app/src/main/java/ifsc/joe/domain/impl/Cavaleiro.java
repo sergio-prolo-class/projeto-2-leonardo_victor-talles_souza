@@ -36,7 +36,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
 
-        String nomeAtual = this.montado ? "cavaleiro" : "aldeao";
+        String nomeAtual = this.montado ? "cavaleiro" : "guerreiro";
         this.icone = this.carregarImagem(nomeAtual);
         this.nomeImagemBase = nomeAtual;
         // desenhando de fato a imagem no pai

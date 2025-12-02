@@ -9,6 +9,7 @@ import ifsc.joe.enums.Direcao;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
