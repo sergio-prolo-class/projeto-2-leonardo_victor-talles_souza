@@ -1,6 +1,7 @@
 package ifsc.joe.ui;
 
 import ifsc.joe.consts.Constantes;
+import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
@@ -38,6 +39,7 @@ public class PainelControles {
     private JButton buttonBaixo;
     private JButton buttonDireita;
     private JLabel logo;
+    private JButton montarButton;
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -52,6 +54,7 @@ public class PainelControles {
         configurarBotoesMovimento(Personagem.class);
         configurarBotoesCriacao();
         configurarBotaoAtaque();
+        configurarBotaoMontar(ComMontaria.class);
     }
 
     /**
@@ -86,23 +89,29 @@ public class PainelControles {
      * Configura todos os listeners dos botões de seleção
      */
     private void configurarBotoesMovimentar() {
-        todosRadioButton.addActionListener(e -> configurarBotoesMovimento(Personagem.class));
+        todosRadioButton.addActionListener(e -> passarClasse(Personagem.class));
 
-        aldeaoRadioButton.addActionListener( e -> configurarBotoesMovimento(Aldeao.class));
+        aldeaoRadioButton.addActionListener( e -> passarClasse(Aldeao.class));
 
-        arqueiroRadioButton.addActionListener(e -> configurarBotoesMovimento(Arqueiro.class));
+        arqueiroRadioButton.addActionListener(e -> passarClasse(Arqueiro.class));
 
-        cavaleiroRadioButton.addActionListener(e -> configurarBotoesMovimento(Cavaleiro.class));
+        cavaleiroRadioButton.addActionListener(e -> passarClasse(Cavaleiro.class));
     }
 
     /**
-     * metodo para remover o addActionListener do metodo configurarBotoesMovimento()
+     * Metodo responsável em chamar o tipo de personagem específico para cada metodo
      *
-     * @param button
+     * @param clazz
      */
-    private void removerTodosActionListeners(AbstractButton button) {
-        for (ActionListener al : button.getActionListeners()) {
-            button.removeActionListener(al);
+    private void passarClasse(Class<? extends Personagem> clazz) {
+        configurarBotoesMovimento(clazz);
+
+        if (ComMontaria.class.isAssignableFrom(clazz)) {
+            @SuppressWarnings("unchecked")
+            Class<? extends ComMontaria> montariaClazz = (Class<? extends ComMontaria>) clazz;
+            configurarBotaoMontar(montariaClazz);
+        } else if (clazz.equals(Personagem.class)) {
+            configurarBotaoMontar(ComMontaria.class);
         }
     }
 
@@ -111,6 +120,16 @@ public class PainelControles {
      */
     private void configurarBotaoAtaque() {
 //        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
+    }
+
+    /**
+     * Configura o listener do botão de montar
+     *
+     * @param clazz
+     */
+    private void configurarBotaoMontar(Class<? extends ComMontaria> clazz) {
+        removerTodosActionListeners(montarButton);
+        montarButton.addActionListener(e -> getTela().montarComMontaria(clazz));
     }
 
     /**
@@ -141,6 +160,16 @@ public class PainelControles {
         return xy;
     }
 
+    /**
+     * metodo para remover o addActionListener do metodo configurarBotoesMovimento()
+     *
+     * @param button
+     */
+    private void removerTodosActionListeners(AbstractButton button) {
+        for (ActionListener al : button.getActionListeners()) {
+            button.removeActionListener(al);
+        }
+    }
 
     /**
      * Exibe mensagem informando que a funcionalidade ainda não foi implementada.

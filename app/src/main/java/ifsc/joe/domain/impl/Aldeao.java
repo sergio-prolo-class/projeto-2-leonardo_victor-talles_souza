@@ -39,8 +39,10 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-        // verifica se ta montado
-        this.icone = this.carregarImagem(nomeImagemBase = (montado ? "cavaleiro" : "aldeao"));
+        String nomeAtual = this.montado ? "cavaleiro" : "aldeao";
+        this.icone = this.carregarImagem(nomeAtual);
+
+        this.nomeImagemBase = nomeAtual;
         // desenhando de fato a imagem no pai
         g.drawImage(this.icone, this.posX, this.posY, painel);
     }

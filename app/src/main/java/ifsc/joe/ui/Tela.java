@@ -1,5 +1,6 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
@@ -76,9 +77,24 @@ public class Tela extends JPanel {
 //        //TODO preciso ser melhorado
 //
 //        // Percorrendo a lista de aldeões e pedindo para todos atacarem
-//        this.aldeoes.forEach(Aldeao::atacar);
+//        this.aldeoes.forEach(Aldeao::alternarMontado);
 //
 //        // Fazendo o JPanel ser redesenhado
 //        this.repaint();
 //    }
+
+    /**
+     * Altera o estado do personage de montado para não montado e vice-versa
+     *
+     * @param clazz
+     */
+    public void montarComMontaria(Class<? extends ComMontaria> clazz) {
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .map(clazz::cast)
+                .forEach(ComMontaria::alternarMontado);
+
+        // Fazendo o JPanel ser redesenhado
+        this.repaint();
+    }
 }
