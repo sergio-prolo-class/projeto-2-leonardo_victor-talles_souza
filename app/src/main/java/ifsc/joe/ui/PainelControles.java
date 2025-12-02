@@ -8,6 +8,7 @@ import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 
@@ -48,7 +49,7 @@ public class PainelControles {
      */
     private void configurarListeners() {
         configurarBotoesMovimentar();
-        configurarBotoesMovimento();
+        configurarBotoesMovimento(Personagem.class);
         configurarBotoesCriacao();
         configurarBotaoAtaque();
     }
@@ -56,11 +57,18 @@ public class PainelControles {
     /**
      * Configura todos os listeners dos botões de movimento
      */
-    private void configurarBotoesMovimento() {
-        buttonCima.addActionListener(e -> getTela().movimentarPersonagem(Direcao.CIMA));
-        buttonBaixo.addActionListener(e -> getTela().movimentarPersonagem(Direcao.BAIXO));
-        buttonEsquerda.addActionListener(e -> getTela().movimentarPersonagem(Direcao.ESQUERDA));
-        buttonDireita.addActionListener(e -> getTela().movimentarPersonagem(Direcao.DIREITA));
+    private void configurarBotoesMovimento( Class<? extends Personagem> clazz) {
+        removerTodosActionListeners(buttonCima);
+        buttonCima.addActionListener(e -> getTela().movimentarPersonagem(Direcao.CIMA, clazz));
+
+        removerTodosActionListeners(buttonBaixo);
+        buttonBaixo.addActionListener(e -> getTela().movimentarPersonagem(Direcao.BAIXO, clazz));
+
+        removerTodosActionListeners(buttonEsquerda);
+        buttonEsquerda.addActionListener(e -> getTela().movimentarPersonagem(Direcao.ESQUERDA, clazz));
+
+        removerTodosActionListeners(buttonDireita);
+        buttonDireita.addActionListener(e -> getTela().movimentarPersonagem(Direcao.DIREITA, clazz));
     }
 
     /**
@@ -78,12 +86,24 @@ public class PainelControles {
      * Configura todos os listeners dos botões de seleção
      */
     private void configurarBotoesMovimentar() {
-        todosRadioButton.addActionListener(e -> configurarBotoesMovimento());
+        todosRadioButton.addActionListener(e -> configurarBotoesMovimento(Personagem.class));
 
-        // TODO selecionar
-        aldeaoRadioButton.addActionListener( e -> mostrarMensagemNaoImplementado("selecionar aldeão"));
-        arqueiroRadioButton.addActionListener(e -> mostrarMensagemNaoImplementado("selecionar arqueiro"));
-        cavaleiroRadioButton.addActionListener(e -> mostrarMensagemNaoImplementado("selecionar cavaleiro"));
+        aldeaoRadioButton.addActionListener( e -> configurarBotoesMovimento(Aldeao.class));
+
+        arqueiroRadioButton.addActionListener(e -> configurarBotoesMovimento(Arqueiro.class));
+
+        cavaleiroRadioButton.addActionListener(e -> configurarBotoesMovimento(Cavaleiro.class));
+    }
+
+    /**
+     * metodo para remover o addActionListener do metodo configurarBotoesMovimento()
+     *
+     * @param button
+     */
+    private void removerTodosActionListeners(AbstractButton button) {
+        for (ActionListener al : button.getActionListeners()) {
+            button.removeActionListener(al);
+        }
     }
 
     /**

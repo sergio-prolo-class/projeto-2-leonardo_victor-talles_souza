@@ -58,10 +58,11 @@ public class Tela extends JPanel {
      *
      * @param direcao direcao para movimentar
      */
-    public void movimentarPersonagem(Direcao direcao) {
-        //TODO preciso ser melhorado
+    public void movimentarPersonagem(Direcao direcao, Class<? extends Personagem> clazz) {
 
-        this.personagens.forEach(personagem -> personagem.mover(direcao, this.getWidth(), this.getHeight()));
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .forEach(p -> p.mover(direcao, this.getWidth(), this.getHeight()));
 
         // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
         this.repaint();
