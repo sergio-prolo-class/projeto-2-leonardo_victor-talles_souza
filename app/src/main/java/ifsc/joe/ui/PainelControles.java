@@ -26,7 +26,7 @@ public class PainelControles  {
     private int count;
     private Class<? extends ComMontaria> classeMontariaAtual;
     private Class<? extends Personagem> classePersonagemAtual;
-    private JRadioButton[] filtro = new JRadioButton[4];
+    private final JRadioButton[] filtro = new JRadioButton[4];
 
     // Componentes da interface (gerados pelo Form Designer)
     private JPanel painelPrincipal;
@@ -90,11 +90,11 @@ public class PainelControles  {
      * Configura todos os listeners dos botões de criação
      */
     private void configurarBotoesCriacao() {
-        bCriaAldeao.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
+        bCriaAldeao.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ALDEAO, posicaoCriacao()[0], posicaoCriacao()[1]));
 
-        bCriaArqueiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
+        bCriaArqueiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, posicaoCriacao()[0], posicaoCriacao()[1]));
 
-        bCriaCavaleiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
+        bCriaCavaleiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, posicaoCriacao()[0], posicaoCriacao()[1]));
     }
 
     /**
@@ -122,8 +122,6 @@ public class PainelControles  {
 
     /**
      * Metodo responsável em chamar o tipo de personagem específico para cada metodo
-     *
-     * @param clazz
      */
     private void passarClasse(Class<? extends Personagem> clazz) {
         this.classePersonagemAtual = clazz;
@@ -151,7 +149,6 @@ public class PainelControles  {
     /**
      * Configura o listener do botão de montar
      *
-     * @param clazz
      */
     private void configurarBotaoMontar(Class<? extends ComMontaria> clazz) {
         this.classeMontariaAtual = clazz;
@@ -168,59 +165,25 @@ public class PainelControles  {
         ActionMap actionMap = painelPrincipal.getActionMap();
 
         inputMap.put(Constantes.KY_1, Constantes.CRIAR_ALDEAO);
-        actionMap.put(Constantes.CRIAR_ALDEAO, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]);            }
-        });
+        actionMap.put(Constantes.CRIAR_ALDEAO, new CriacaoAtalho(TipoPersonagem.ALDEAO, getTela(), this));
 
         inputMap.put(Constantes.KY_2, Constantes.CRIAR_ARQUEIRO);
-        actionMap.put(Constantes.CRIAR_ARQUEIRO, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
-            }
-        });
+        actionMap.put(Constantes.CRIAR_ARQUEIRO, new CriacaoAtalho(TipoPersonagem.ARQUEIRO, getTela(), this));
 
         inputMap.put(Constantes.KY_3, Constantes.CRIAR_CAVALEIRO);
-        actionMap.put(Constantes.CRIAR_CAVALEIRO, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
-            }
-        });
+        actionMap.put(Constantes.CRIAR_CAVALEIRO, new CriacaoAtalho(TipoPersonagem.CAVALEIRO, getTela(), this));
 
         inputMap.put(Constantes.KY_LEFT, Constantes.ESQUERDA);
-        actionMap.put(Constantes.ESQUERDA, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().movimentarPersonagem(Direcao.ESQUERDA, classePersonagemAtual);
-            }
-        });
+        actionMap.put(Constantes.ESQUERDA, new MovimentoAtalho(Direcao.ESQUERDA, getTela(), this));
 
         inputMap.put(Constantes.KY_UP, Constantes.CIMA);
-        actionMap.put(Constantes.CIMA, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().movimentarPersonagem(Direcao.CIMA, classePersonagemAtual);
-            }
-        });
+        actionMap.put(Constantes.CIMA, new MovimentoAtalho(Direcao.CIMA, getTela(), this));
 
         inputMap.put(Constantes.KY_RIGHT, Constantes.DIREITA);
-        actionMap.put(Constantes.DIREITA, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().movimentarPersonagem(Direcao.DIREITA, classePersonagemAtual);
-            }
-        });
+        actionMap.put(Constantes.DIREITA, new MovimentoAtalho(Direcao.DIREITA, getTela(), this));
 
         inputMap.put(Constantes.KY_DOWN, Constantes.BAIXO);
-        actionMap.put(Constantes.BAIXO, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getTela().movimentarPersonagem(Direcao.BAIXO, classePersonagemAtual);
-            }
-        });
+        actionMap.put(Constantes.BAIXO, new MovimentoAtalho(Direcao.BAIXO, getTela(), this));
 
         inputMap.put(Constantes.KY_M, Constantes.MONTAR);
         actionMap.put(Constantes.MONTAR, new AbstractAction() {
@@ -270,7 +233,7 @@ public class PainelControles  {
      *
      * @return
      */
-    private int[] PosicaoCriacao() {
+    public int[] posicaoCriacao() {
         int[] xy = new int[2];
         xy[0] = sorteio.nextInt(painelTela.getWidth() - Constantes.PADDING);
         xy[1] = sorteio.nextInt(painelTela.getHeight() - Constantes.PADDING);
@@ -279,8 +242,6 @@ public class PainelControles  {
 
     /**
      * metodo para remover o addActionListener do metodo configurarBotoesMovimento()
-     *
-     * @param button
      */
     private void removerTodosActionListeners(AbstractButton button) {
         for (ActionListener al : button.getActionListeners()) {
@@ -303,7 +264,7 @@ public class PainelControles  {
     /**
      * Obtém a referência da Tela com cast seguro.
      */
-    private Tela getTela() {
+    public final Tela getTela() {
         if (tela == null) {
             tela = (Tela) painelTela;
         }
@@ -315,6 +276,13 @@ public class PainelControles  {
      */
     public JPanel getPainelPrincipal() {
         return painelPrincipal;
+    }
+
+    /**
+     * Retorna a classe atual selecionada
+     */
+    public Class<? extends Personagem> getClassePersonagemAtual() {
+        return classePersonagemAtual;
     }
 
     /**

@@ -24,9 +24,10 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     public Aldeao(int posX, int posY) {
         super(posX, posY,
                 Constantes.NOME_IMAGEM_ALDEAO,
+                Constantes.NOME_IMAGEM_ALDEAO_MONTADO,
                 Constantes.ALDEAO_VELOCIDADE,
                 Constantes.ALDEAO_VIDA_INICIAL);
-        this.icone = this.carregarImagem(this.nomeImagemBase);
+        this.icone = this.imagemNormal;
     }
 
     /**
@@ -39,10 +40,8 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-        String nomeAtual = this.montado ? "aldeao-montado" : "aldeao3";
-        this.icone = this.carregarImagem(nomeAtual);
+        this.icone = this.montado ? this.imagemVariante : this.imagemNormal;
 
-        this.nomeImagemBase = nomeAtual;
         // desenhando de fato a imagem no pai
         g.drawImage(this.icone, this.posX, this.posY, painel);
     }
@@ -61,8 +60,6 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     /**
      * Verifica se é possível coletar o item
      *
-     * @param recurso
-     * @return
      */
     @Override
     public boolean coletar(Recurso recurso) {

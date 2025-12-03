@@ -3,29 +3,22 @@ package ifsc.joe.ui;
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
-import ifsc.joe.domain.impl.Arqueiro;
-import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
 import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Tela extends JPanel {
 
     private final Set<Personagem> personagens;
-    private final Set<Aldeao> aldeoes;
 
     public Tela() {
 
-        //TODO preciso ser melhorado
-
         this.setBackground(Color.white);
         this.personagens = new HashSet<>();
-        this.aldeoes = new HashSet<>();
     }
 
     /**
@@ -49,9 +42,6 @@ public class Tela extends JPanel {
      * Metodo que invoca o metodo da estatico da classe PersonagemFactory
      * e adiciona o personagem na coleção e Desenha-o neste JPanel
      *
-     * @param tipo
-     * @param posX
-     * @param posY
      */
     public void criarPersonagem(TipoPersonagem tipo, int posX, int posY) {
         this.personagens.add(PersonagemFactory.criar(tipo, posX, posY));
@@ -73,9 +63,9 @@ public class Tela extends JPanel {
         this.repaint();
     }
 
-    /**
-     * Altera o estado do aldeão de atacando para não atacando e vice-versa
-     */
+//    /**
+//     * Altera o estado do aldeão de atacando para não atacando e vice-versa
+//     */
 //    public void atacarAldeoes() {
 //
 //        //TODO preciso ser melhorado
@@ -90,7 +80,6 @@ public class Tela extends JPanel {
     /**
      * Altera o estado do personage de montado para não montado e vice-versa
      *
-     * @param clazz
      */
     public void montarComMontaria(Class<? extends ComMontaria> clazz) {
         this.personagens.stream()

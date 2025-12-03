@@ -28,7 +28,7 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
                 Constantes.NOME_IMAGEM_ARQUEIRO,
                 Constantes.ARQUEIRO_VELOCIDADE,
                 Constantes.ALDEAO_VIDA_INICIAL);
-        this.icone = this.carregarImagem(Constantes.NOME_IMAGEM_ARQUEIRO);
+        this.icone = this.imagemNormal;
         this.flechas = Constantes.ARQUEIRO_FLECHAS_INICIAL;
         this.ataque = Constantes.ARQUEIRO_ATAQUE;
     }
@@ -50,8 +50,6 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     /**
      * Verifica se é possível coletar o item
      *
-     * @param recurso
-     * @return
      */
     @Override
     public boolean coletar(Recurso recurso) {
@@ -77,7 +75,6 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     /**
      * Metodo de ataque
      *
-     * @param alvo
      */
     @Override
     public void atacar(Personagem alvo) {

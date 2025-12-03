@@ -1,26 +1,45 @@
 package ifsc.joe.domain.core;
 
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.ui.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public abstract class Personagem {
     protected int posX, posY;
     protected Image icone;
-    protected String nomeImagemBase;
+    protected String nomeImagemInicial;
+    protected String nomeImagemVariante;
+
+    protected Image imagemNormal;
+    protected Image imagemVariante;
 
     protected double velocidade;
     protected int vida;
 
     // Construtor
-    public Personagem(int posX, int posY, String nomeImagemBase, double velocidade, int vida) {
+    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemVariante, double velocidade, int vida) {
+            this.posX = posX;
+            this.posY = posY;
+            this.nomeImagemInicial = nomeImagemInicial;
+            this.nomeImagemVariante = nomeImagemVariante;
+            this.velocidade = velocidade;
+            this.vida = vida;
+
+        this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
+        this.imagemVariante = ResourceManager.getImagens(nomeImagemVariante);
+    }
+
+    public Personagem(int posX, int posY, String nomeImagemInicial, double velocidade, int vida) {
         this.posX = posX;
         this.posY = posY;
-        this.nomeImagemBase = nomeImagemBase;
+        this.nomeImagemInicial = nomeImagemInicial;
         this.velocidade = velocidade;
         this.vida = vida;
+
+        this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
+        this.imagemVariante = null;
     }
 
     /**
@@ -49,17 +68,6 @@ public abstract class Personagem {
         this.posY = Math.min(Math.max(0, this.posY), maxAltura - this.icone.getHeight(null));
     }
 
-    /**
-     * Metodo auxiliar para carregar uma imagem do disco
-     *
-     * @param imagem Caminho da imagem
-     * @return Retorna um objeto Image
-     */
-    protected Image carregarImagem(String imagem) {
-        return new ImageIcon(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("./"+imagem+".png")
-        )).getImage();
-    }
 
     public final double getVelocidade() {
         return velocidade;

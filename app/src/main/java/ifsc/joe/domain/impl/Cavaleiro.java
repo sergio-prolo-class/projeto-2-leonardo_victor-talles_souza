@@ -17,10 +17,11 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     public Cavaleiro(int posX, int posY) {
         super(posX,
                 posY,
+                Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO,
                 Constantes.NOME_IMAGEM_CAVALEIRO,
                 Constantes.CAVALEIRO_VELOCIDADE,
                 Constantes.CAVALEIRO_VIDA_INICIAL);
-        this.icone = this.carregarImagem(this.nomeImagemBase);
+        this.icone = this.imagemNormal;
         this.ataque = Constantes.CAVALEIRO_ATAQUE;
         this.montado = true;
     }
@@ -35,10 +36,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-
-        String nomeAtual = this.montado ? "cavaleiro" : "guerreiro";
-        this.icone = this.carregarImagem(nomeAtual);
-        this.nomeImagemBase = nomeAtual;
+        this.icone = this.montado ? this.imagemNormal : this.imagemVariante;
         // desenhando de fato a imagem no pai
         g.drawImage(this.icone, this.posX, this.posY, painel);
     }
@@ -57,7 +55,6 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     /**
      * Metodo de ataque
      *
-     * @param alvo
      */
     @Override
     public void atacar(Personagem alvo) {

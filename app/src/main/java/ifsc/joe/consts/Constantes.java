@@ -6,8 +6,10 @@ import java.awt.event.KeyEvent;
 public final class Constantes {
 
     // Constates da criação das imagens
-    public static final String NOME_IMAGEM_ALDEAO = "aldeao";
-    public static final String NOME_IMAGEM_CAVALEIRO = "cavaleiro";
+    public static final String NOME_IMAGEM_ALDEAO = "aldeao3";
+    public static final String NOME_IMAGEM_ALDEAO_MONTADO = "aldeao-montado";
+    public static final String NOME_IMAGEM_CAVALEIRO_MONTADO = "cavaleiro";
+    public static final String NOME_IMAGEM_CAVALEIRO = "guerreiro";
     public static final String NOME_IMAGEM_ARQUEIRO = "arqueiro";
 
     // Constantes do Aldeão
