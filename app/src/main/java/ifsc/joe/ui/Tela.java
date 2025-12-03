@@ -46,14 +46,8 @@ public class Tela extends JPanel {
     }
 
     /**
-     * Desenha-o neste JPanel
-     * e adiciona o mesmo na lista de aldeoes
-     *
-     * @param personagem
-     */
-
-
-    /**
+     * Metodo que invoca o metodo da estatico da classe PersonagemFactory
+     * e adiciona o personagem na coleção e Desenha-o neste JPanel
      *
      * @param tipo
      * @param posX

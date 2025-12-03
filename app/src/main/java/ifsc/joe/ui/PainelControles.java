@@ -25,6 +25,7 @@ public class PainelControles  {
     private Tela tela;
     private int count;
     private Class<? extends ComMontaria> classeMontariaAtual;
+    private Class<? extends Personagem> classePersonagemAtual;
     private JRadioButton[] filtro = new JRadioButton[4];
 
     // Componentes da interface (gerados pelo Form Designer)
@@ -50,6 +51,7 @@ public class PainelControles  {
         this.sorteio = new Random();
         this.count = 0;
         this.classeMontariaAtual = ComMontaria.class;
+        this.classePersonagemAtual = Personagem.class;
         configurarListeners();
         inicializarArrayFiltro();
         configurarKeyBindings();
@@ -73,19 +75,15 @@ public class PainelControles  {
     private void configurarBotoesMovimento( Class<? extends Personagem> clazz) {
         removerTodosActionListeners(buttonCima);
         buttonCima.addActionListener(e -> getTela().movimentarPersonagem(Direcao.CIMA, clazz));
-        buttonCima.setFocusable(false);
 
         removerTodosActionListeners(buttonBaixo);
         buttonBaixo.addActionListener(e -> getTela().movimentarPersonagem(Direcao.BAIXO, clazz));
-        buttonBaixo.setFocusable(false);
 
         removerTodosActionListeners(buttonEsquerda);
         buttonEsquerda.addActionListener(e -> getTela().movimentarPersonagem(Direcao.ESQUERDA, clazz));
-        buttonEsquerda.setFocusable(false);
 
         removerTodosActionListeners(buttonDireita);
         buttonDireita.addActionListener(e -> getTela().movimentarPersonagem(Direcao.DIREITA, clazz));
-        buttonDireita.setFocusable(false);
     }
 
     /**
@@ -93,13 +91,10 @@ public class PainelControles  {
      */
     private void configurarBotoesCriacao() {
         bCriaAldeao.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
-        bCriaAldeao.setFocusable(false);
 
         bCriaArqueiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
-        bCriaArqueiro.setFocusable(false);
 
         bCriaCavaleiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
-        bCriaCavaleiro.setFocusable(false);
     }
 
     /**
@@ -107,16 +102,12 @@ public class PainelControles  {
      */
     private void configurarBotoesSelecionar() {
         todosRadioButton.addActionListener(e -> passarClasse(Personagem.class));
-        todosRadioButton.setFocusable(false);
 
         aldeaoRadioButton.addActionListener( e -> passarClasse(Aldeao.class));
-        aldeaoRadioButton.setFocusable(false);
 
         arqueiroRadioButton.addActionListener(e -> passarClasse(Arqueiro.class));
-        arqueiroRadioButton.setFocusable(false);
 
         cavaleiroRadioButton.addActionListener(e -> passarClasse(Cavaleiro.class));
-        cavaleiroRadioButton.setFocusable(false);
     }
 
     /**
@@ -135,6 +126,7 @@ public class PainelControles  {
      * @param clazz
      */
     private void passarClasse(Class<? extends Personagem> clazz) {
+        this.classePersonagemAtual = clazz;
 
         configurarBotoesMovimento(clazz);
 
@@ -153,7 +145,6 @@ public class PainelControles  {
      * Configura o listener do botão de ataque
      */
     private void configurarBotaoAtaque() {
-        atacarButton.setFocusable(false);
 //        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
     }
 
@@ -173,66 +164,96 @@ public class PainelControles  {
      * Metodo para gerênciar o atalho do teclado
      */
     private void configurarKeyBindings() {
-
         InputMap inputMap = painelPrincipal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = painelPrincipal.getActionMap();
 
-
-        inputMap.put(Constantes.ky1, "criarAldeao");
-        actionMap.put("criarAldeao", new AbstractAction() {
+        inputMap.put(Constantes.KY_1, Constantes.CRIAR_ALDEAO);
+        actionMap.put(Constantes.CRIAR_ALDEAO, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]);            }
         });
 
-        inputMap.put(Constantes.ky2, "criarArqueiro");
-        actionMap.put("criarArqueiro", new AbstractAction() {
+        inputMap.put(Constantes.KY_2, Constantes.CRIAR_ARQUEIRO);
+        actionMap.put(Constantes.CRIAR_ARQUEIRO, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
             }
         });
 
-        inputMap.put(Constantes.ky3, "criarCavaleiro");
-        actionMap.put("criarCavaleiro", new AbstractAction() {
+        inputMap.put(Constantes.KY_3, Constantes.CRIAR_CAVALEIRO);
+        actionMap.put(Constantes.CRIAR_CAVALEIRO, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
             }
         });
 
-        inputMap.put(Constantes.kyM, "montar");
-        actionMap.put("montar", new AbstractAction() {
+        inputMap.put(Constantes.KY_LEFT, Constantes.ESQUERDA);
+        actionMap.put(Constantes.ESQUERDA, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getTela().movimentarPersonagem(Direcao.ESQUERDA, classePersonagemAtual);
+            }
+        });
+
+        inputMap.put(Constantes.KY_UP, Constantes.CIMA);
+        actionMap.put(Constantes.CIMA, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getTela().movimentarPersonagem(Direcao.CIMA, classePersonagemAtual);
+            }
+        });
+
+        inputMap.put(Constantes.KY_RIGHT, Constantes.DIREITA);
+        actionMap.put(Constantes.DIREITA, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getTela().movimentarPersonagem(Direcao.DIREITA, classePersonagemAtual);
+            }
+        });
+
+        inputMap.put(Constantes.KY_DOWN, Constantes.BAIXO);
+        actionMap.put(Constantes.BAIXO, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getTela().movimentarPersonagem(Direcao.BAIXO, classePersonagemAtual);
+            }
+        });
+
+        inputMap.put(Constantes.KY_M, Constantes.MONTAR);
+        actionMap.put(Constantes.MONTAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTela().montarComMontaria(classeMontariaAtual);
             }
         });
 
-        inputMap.put(Constantes.kySpace, "atacar");
-        actionMap.put("atacar", new AbstractAction() {
+        inputMap.put(Constantes.KY_SPACE, Constantes.ATACAR);
+        actionMap.put(Constantes.ATACAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarMensagemNaoImplementado("tab");
             }
         });
 
-        inputMap.put(Constantes.kyTab, "alternarFiltros");
-        actionMap.put("alternarFiltros", new AbstractAction() {
+        inputMap.put(Constantes.KY_TAB, Constantes.ALTERNAR_FILTROS);
+        actionMap.put(Constantes.ALTERNAR_FILTROS, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 trocarFiltro();
             }
         });
+        painelPrincipal.setFocusable(true);
     }
 
     /**
      * Metodo que faz a troca de filtro quando a tecla Tab é clicada
      */
     private void trocarFiltro() {
-        if (count == 4) count = 0;
+        count = (count + 1) % 4;
         filtro[count].doClick();
-        count++;
     }
 
     /**

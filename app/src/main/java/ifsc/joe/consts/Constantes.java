@@ -33,12 +33,30 @@ public final class Constantes {
     public static final String TITULO = "Java of Empires";
 
 
-    public static final KeyStroke ky1 = KeyStroke.getKeyStroke(KeyEvent.VK_1, 0);
-    public static final KeyStroke ky2 = KeyStroke.getKeyStroke(KeyEvent.VK_2, 0);
-    public static final KeyStroke ky3 = KeyStroke.getKeyStroke(KeyEvent.VK_3, 0);
-    public static final KeyStroke kyM = KeyStroke.getKeyStroke(KeyEvent.VK_M, 0);
-    public static final KeyStroke kySpace  = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0);
-    public static final KeyStroke kyTab  = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
+    public static final KeyStroke KY_1 = KeyStroke.getKeyStroke(KeyEvent.VK_1, 0);
+    public static final KeyStroke KY_2 = KeyStroke.getKeyStroke(KeyEvent.VK_2, 0);
+    public static final KeyStroke KY_3 = KeyStroke.getKeyStroke(KeyEvent.VK_3, 0);
+    public static final KeyStroke KY_M = KeyStroke.getKeyStroke(KeyEvent.VK_M, 0);
+    public static final KeyStroke KY_SPACE = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0);
+    public static final KeyStroke KY_TAB = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
+    public static final KeyStroke KY_LEFT = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
+    public static final KeyStroke KY_UP = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0);
+    public static final KeyStroke KY_RIGHT = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
+    public static final KeyStroke KY_DOWN = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
+
+    public static final String CRIAR_ALDEAO = "criarAldeao";
+    public static final String CRIAR_CAVALEIRO = "criarCavaleiro";
+    public static final String CRIAR_ARQUEIRO = "criarArqueiro";
+    public static final String MONTAR = "montar";
+    public static final String ATACAR = "atacar";
+    public static final String ALTERNAR_FILTROS = "alternarFiltros";
+    public static final String ESQUERDA = "esquerda";
+    public static final String CIMA = "cima";
+    public static final String DIREITA = "direita";
+    public static final String BAIXO = "baixo";
+
+
+
 
 
 

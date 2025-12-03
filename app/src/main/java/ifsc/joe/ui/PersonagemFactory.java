@@ -6,8 +6,10 @@ import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.TipoPersonagem;
 
+/**
+ * Classe responsável por criar os personagens
+ */
 public class PersonagemFactory {
-
     public static Personagem criar(TipoPersonagem tipoPersonagem, int posX, int posY) {
         return switch (tipoPersonagem) {
             case CAVALEIRO -> new Cavaleiro(posX, posY);
