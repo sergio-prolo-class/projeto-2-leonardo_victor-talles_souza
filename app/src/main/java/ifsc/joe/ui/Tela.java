@@ -6,6 +6,7 @@ import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,9 +51,17 @@ public class Tela extends JPanel {
      *
      * @param personagem
      */
-    public void criarPersonagem(Personagem personagem) {
-        personagem.desenhar(super.getGraphics(), this);
-        this.personagens.add(personagem);
+
+
+    /**
+     *
+     * @param tipo
+     * @param posX
+     * @param posY
+     */
+    public void criarPersonagem(TipoPersonagem tipo, int posX, int posY) {
+        this.personagens.add(PersonagemFactory.criar(tipo, posX, posY));
+        this.repaint();
     }
 
     /**

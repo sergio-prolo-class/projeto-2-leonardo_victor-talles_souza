@@ -7,14 +7,13 @@ import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Constructor;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -93,13 +92,13 @@ public class PainelControles  {
      * Configura todos os listeners dos botões de criação
      */
     private void configurarBotoesCriacao() {
-        bCriaAldeao.addActionListener(e -> criarPersonagem(Aldeao.class));
+        bCriaAldeao.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
         bCriaAldeao.setFocusable(false);
 
-        bCriaArqueiro.addActionListener(e -> criarPersonagem(Arqueiro.class));
+        bCriaArqueiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
         bCriaArqueiro.setFocusable(false);
 
-        bCriaCavaleiro.addActionListener(e -> criarPersonagem(Cavaleiro.class));
+        bCriaCavaleiro.addActionListener(e -> getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]));
         bCriaCavaleiro.setFocusable(false);
     }
 
@@ -171,25 +170,10 @@ public class PainelControles  {
     }
 
     /**
-     * Cria um personagem nas coordenadas X e Y.
-     */
-    public void criarPersonagem(Class<? extends Personagem> clazz) {
-        int[] pos = sortearPosicaoAleatoria();
-        try {
-            Constructor<? extends Personagem> personagem = clazz.getConstructor(int.class, int.class);
-            Personagem p = personagem.newInstance(pos[0], pos[1]);
-            getTela().criarPersonagem(p);
-        } catch (Exception e) {
-            // não sei se pode colocar
-            // TODO melhorar o tratamento
-            System.err.println("Erro ao criar personagem: " + e.getMessage());
-        }
-    }
-
-    /**
      * Metodo para gerênciar o atalho do teclado
      */
     private void configurarKeyBindings() {
+
         InputMap inputMap = painelPrincipal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = painelPrincipal.getActionMap();
 
@@ -198,15 +182,14 @@ public class PainelControles  {
         actionMap.put("criarAldeao", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                criarPersonagem(Aldeao.class);
-            }
+                getTela().criarPersonagem(TipoPersonagem.ALDEAO, PosicaoCriacao()[0], PosicaoCriacao()[1]);            }
         });
 
         inputMap.put(Constantes.ky2, "criarArqueiro");
         actionMap.put("criarArqueiro", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                criarPersonagem(Arqueiro.class);
+                getTela().criarPersonagem(TipoPersonagem.ARQUEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
             }
         });
 
@@ -214,7 +197,7 @@ public class PainelControles  {
         actionMap.put("criarCavaleiro", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                criarPersonagem(Cavaleiro.class);
+                getTela().criarPersonagem(TipoPersonagem.CAVALEIRO, PosicaoCriacao()[0], PosicaoCriacao()[1]);
             }
         });
 
@@ -241,7 +224,6 @@ public class PainelControles  {
                 trocarFiltro();
             }
         });
-
     }
 
     /**
@@ -267,7 +249,7 @@ public class PainelControles  {
      *
      * @return
      */
-    private int[] sortearPosicaoAleatoria() {
+    private int[] PosicaoCriacao() {
         int[] xy = new int[2];
         xy[0] = sorteio.nextInt(painelTela.getWidth() - Constantes.PADDING);
         xy[1] = sorteio.nextInt(painelTela.getHeight() - Constantes.PADDING);
