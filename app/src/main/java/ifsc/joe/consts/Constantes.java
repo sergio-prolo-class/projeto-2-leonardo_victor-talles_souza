@@ -1,5 +1,8 @@
 package ifsc.joe.consts;
 
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+
 public final class Constantes {
 
     // Constates da criação das imagens
@@ -28,5 +31,15 @@ public final class Constantes {
 
     public static final int PADDING = 50;
     public static final String TITULO = "Java of Empires";
+
+
+    public static final KeyStroke ky1 = KeyStroke.getKeyStroke(KeyEvent.VK_1, 0);
+    public static final KeyStroke ky2 = KeyStroke.getKeyStroke(KeyEvent.VK_2, 0);
+    public static final KeyStroke ky3 = KeyStroke.getKeyStroke(KeyEvent.VK_3, 0);
+    public static final KeyStroke kyM = KeyStroke.getKeyStroke(KeyEvent.VK_M, 0);
+    public static final KeyStroke kySpace  = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0);
+    public static final KeyStroke kyTab  = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
+
+
 
 }
