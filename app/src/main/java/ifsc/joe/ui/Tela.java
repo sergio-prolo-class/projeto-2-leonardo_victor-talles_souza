@@ -1,5 +1,6 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
@@ -98,4 +99,16 @@ public class Tela extends JPanel {
         // Fazendo o JPanel ser redesenhado
         this.repaint();
     }
+    public void coletarColetador(Class<? extends Coletador> clazz) {
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .map(clazz::cast);
+                //.forEach();
+        //falta implementar
+
+
+        // Fazendo o JPanel ser redesenhado
+        this.repaint();
+    }
+
 }

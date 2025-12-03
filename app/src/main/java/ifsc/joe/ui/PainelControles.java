@@ -1,6 +1,7 @@
 package ifsc.joe.ui;
 
 import ifsc.joe.consts.Constantes;
+import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
@@ -40,6 +41,7 @@ public class PainelControles {
     private JButton buttonDireita;
     private JLabel logo;
     private JButton montarButton;
+    private JButton coletarButton;
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -130,6 +132,12 @@ public class PainelControles {
     private void configurarBotaoMontar(Class<? extends ComMontaria> clazz) {
         removerTodosActionListeners(montarButton);
         montarButton.addActionListener(e -> getTela().montarComMontaria(clazz));
+    }
+
+    //Configura o listener do botão de coletar
+    private void configurarBotaoColetar(Class<? extends Coletador> clazz) {
+        removerTodosActionListeners(montarButton);
+        montarButton.addActionListener(e -> getTela().coletarColetador(clazz));
     }
 
     /**

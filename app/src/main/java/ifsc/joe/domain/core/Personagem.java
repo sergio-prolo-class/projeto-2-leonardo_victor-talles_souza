@@ -9,6 +9,7 @@ import java.util.Objects;
 public abstract class Personagem {
     protected int posX, posY;
     protected Image icone;
+    //protected Image barraVida;
     protected String nomeImagemBase;
 
     protected double velocidade;
