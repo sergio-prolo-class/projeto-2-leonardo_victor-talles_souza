@@ -46,6 +46,7 @@ public class PainelControles  {
     private JButton buttonDireita;
     private JLabel logo;
     private JButton montarButton;
+    private JButton coletarButton;
 
     public PainelControles() {
         this.sorteio = new Random();

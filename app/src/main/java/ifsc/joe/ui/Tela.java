@@ -2,8 +2,8 @@ package ifsc.joe.ui;
 
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
-import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.Recurso;
 import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
