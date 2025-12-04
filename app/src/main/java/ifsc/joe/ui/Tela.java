@@ -1,6 +1,7 @@
 package ifsc.joe.ui;
 
 import ifsc.joe.domain.api.ComMontaria;
+import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.enums.Direcao;
@@ -66,16 +67,23 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
-//    public void atacarAldeoes() {
-//
-//        //TODO preciso ser melhorado
-//
-//        // Percorrendo a lista de aldeões e pedindo para todos atacarem
-//        this.aldeoes.forEach(Aldeao::alternarMontado);
-//
-//        // Fazendo o JPanel ser redesenhado
-//        this.repaint();
-//    }
+    public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .forEach(p -> {
+                    this.personagens.stream()
+                            .filter(other -> other != p)
+                            .forEach(other -> {
+                                ((Guerreiro) p).atacar(other);
+                            });
+                });
+
+        // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
+        // Percorrendo a lista de aldeões e pedindo para todos atacarem
+        //this.aldeoes.forEach(Aldeao::alternarMontado);
+        // Fazendo o JPanel ser redesenhado
+        this.repaint();
+    }
 
     /**
      * Altera o estado do personage de montado para não montado e vice-versa

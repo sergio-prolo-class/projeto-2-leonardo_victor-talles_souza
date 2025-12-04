@@ -6,6 +6,8 @@ import ifsc.joe.ui.ResourceManager;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Math.pow;
+
 public abstract class Personagem {
     protected int posX, posY;
     protected Image icone;
@@ -76,4 +78,19 @@ public abstract class Personagem {
     public final int getVida() {
         return vida;
     }
+
+    public final int getX() {
+        return this.posX;
+    }
+    public final int getY() {
+        return this.posY;
+    }
+
+    public final void sofreDano(int vida) {
+        this.vida -= vida;
+        //teste
+        System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
+    }
+
+
 }

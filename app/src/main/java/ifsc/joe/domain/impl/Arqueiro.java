@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
+import static java.lang.Math.pow;
+
 public class Arqueiro extends Personagem implements Coletador, Guerreiro {
 
     public static final Set<Recurso> COLETAVEIS;
@@ -76,8 +78,13 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
      * Metodo de ataque
      *
      */
+
     @Override
-    public void atacar(Personagem alvo) {
-        // TODO implepentar logica de ataque
+    public void atacar(Personagem p) {
+        if(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2) <= 1500) {
+            p.sofreDano(this.ataque);
+            //reduzindo flechas
+        }
+
     }
 }

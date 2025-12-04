@@ -2,6 +2,7 @@ package ifsc.joe.ui;
 
 import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.api.ComMontaria;
+import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
@@ -65,7 +66,7 @@ public class PainelControles  {
         configurarBotoesSelecionar();
         configurarBotoesMovimento(Personagem.class);
         configurarBotoesCriacao();
-        configurarBotaoAtaque();
+        configurarBotaoAtaque(Guerreiro.class);
         configurarBotaoMontar(ComMontaria.class);
     }
 
@@ -142,8 +143,10 @@ public class PainelControles  {
     /**
      * Configura o listener do botão de ataque
      */
-    private void configurarBotaoAtaque() {
-//        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
+    private void configurarBotaoAtaque(Class<? extends Guerreiro> clazz) {
+        removerTodosActionListeners(atacarButton);
+        atacarButton.addActionListener(e -> getTela().atacarPersonagem(clazz));
+        montarButton.setFocusable(false);
     }
 
     /**
