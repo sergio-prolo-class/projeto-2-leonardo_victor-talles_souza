@@ -67,16 +67,17 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
-    public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
+    public void atacarPersonagem(Class<? extends Personagem> clazz) {
+
         this.personagens.stream()
-                .filter(clazz::isInstance)
-                .forEach(p -> {
-                    this.personagens.stream()
-                            .filter(other -> other != p)
-                            .forEach(other -> {
-                                ((Guerreiro) p).atacar(other);
-                            });
-                });
+            .filter(clazz::isInstance)
+            .filter(Guerreiro.class::isInstance) // só pode atacar quem é guerreiro
+            .map(Guerreiro.class::cast)
+            .forEach(g -> {
+                this.personagens.stream()
+                        .filter(other -> other != g)
+                        .forEach(g::atacar);
+            });
 
         // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
         // Percorrendo a lista de aldeões e pedindo para todos atacarem

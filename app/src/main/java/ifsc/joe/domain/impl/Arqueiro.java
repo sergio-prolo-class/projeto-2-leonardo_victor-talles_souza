@@ -29,7 +29,7 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
                 posY,
                 Constantes.NOME_IMAGEM_ARQUEIRO,
                 Constantes.ARQUEIRO_VELOCIDADE,
-                Constantes.ALDEAO_VIDA_INICIAL);
+                Constantes.ARQUEIRO_VIDA_INICIAL);
         this.icone = this.imagemNormal;
         this.flechas = Constantes.ARQUEIRO_FLECHAS_INICIAL;
         this.ataque = Constantes.ARQUEIRO_ATAQUE;

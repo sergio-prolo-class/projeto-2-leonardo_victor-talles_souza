@@ -27,6 +27,7 @@ public class PainelControles  {
     private int count;
     private Class<? extends ComMontaria> classeMontariaAtual;
     private Class<? extends Personagem> classePersonagemAtual;
+    private Class<? extends Guerreiro> classeGuerreiroAtual;
     private final JRadioButton[] filtro = new JRadioButton[4];
 
     // Componentes da interface (gerados pelo Form Designer)
@@ -53,6 +54,7 @@ public class PainelControles  {
         this.count = 0;
         this.classeMontariaAtual = ComMontaria.class;
         this.classePersonagemAtual = Personagem.class;
+        this.classeGuerreiroAtual = Guerreiro.class;
         configurarListeners();
         inicializarArrayFiltro();
         configurarKeyBindings();
@@ -144,8 +146,9 @@ public class PainelControles  {
      * Configura o listener do botão de ataque
      */
     private void configurarBotaoAtaque(Class<? extends Guerreiro> clazz) {
+        this.classeGuerreiroAtual = clazz;
         removerTodosActionListeners(atacarButton);
-        atacarButton.addActionListener(e -> getTela().atacarPersonagem(clazz));
+        atacarButton.addActionListener(e -> getTela().atacarPersonagem(classePersonagemAtual));
         montarButton.setFocusable(false);
     }
 
