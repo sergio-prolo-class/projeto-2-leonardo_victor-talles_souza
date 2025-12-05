@@ -57,11 +57,9 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
      *
      */
     @Override
-    public boolean coletar(Recurso recurso) {
-        if (!COLETAVEIS.contains(recurso)) return false;
-        if (recurso == Recurso.MADEIRA) this.madeiraColetada++;
-        if (recurso == Recurso.COMIDA) this.comidaColetada++;
-        return true;
+    public Recurso coletar(CriarRecurso p) {
+        if (!COLETAVEIS.contains(p.getTipo())) return null;
+        return p.getTipo();
     }
 
     // TODO ver como vai ser implementado esses métodos

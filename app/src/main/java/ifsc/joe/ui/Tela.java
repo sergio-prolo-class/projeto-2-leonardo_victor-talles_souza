@@ -1,25 +1,40 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.domain.core.Personagem;
-import ifsc.joe.domain.impl.Aldeao;
+import ifsc.joe.domain.impl.CriarRecurso;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.Recurso;
 import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import static java.lang.Math.pow;
 
 public class Tela extends JPanel {
 
     private final Set<Personagem> personagens;
+    private final Set<CriarRecurso> recursos;
+    private final Map<Recurso, Integer> estoqueRecursos;
 
     public Tela() {
 
         this.setBackground(Color.white);
         this.personagens = new HashSet<>();
+        this.recursos = new HashSet<>();
+        this.estoqueRecursos = new HashMap<>();
+
+        for (Recurso r : Recurso.values()) {
+            this.estoqueRecursos.put(r, 0);
+        }
+
     }
 
     /**
@@ -34,6 +49,7 @@ public class Tela extends JPanel {
 
         // percorrendo a lista de aldeões e pedindo para cada um se desenhar na tela
         this.personagens.forEach(personagem -> personagem.desenhar(g, this));
+        this.recursos.forEach(recurso -> recurso.desenhar(g, this));
 
         // liberando o contexto gráfico
         g.dispose();
@@ -47,6 +63,59 @@ public class Tela extends JPanel {
     public void criarPersonagem(TipoPersonagem tipo, int posX, int posY) {
         this.personagens.add(PersonagemFactory.criar(tipo, posX, posY));
         this.repaint();
+    }
+
+    /**
+     * Desenha-o neste JPanel, e adiciona o recurso na coleção
+     *
+     * @param recurso
+     * @param posX
+     * @param posY
+     */
+    public void criarRecurso(Recurso recurso, int posX, int posY) {
+        this.recursos.add(new CriarRecurso(recurso, posX, posY));
+        this.repaint();
+    }
+
+    /**
+     * Coleta os recursos próximos ao personagem
+     *
+     * @param clazz
+     */
+    public void coletarRecurso(Class<? extends Coletador> clazz) {
+        Set<CriarRecurso> recursosParaRemover = new HashSet<>();
+
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .forEach(personagem -> {
+                    this.recursos.iterator().forEachRemaining(r -> {
+                        if (distancia(r, personagem)) {
+                            Coletador coletador = clazz.cast(personagem);
+                            Recurso recursoColetado = coletador.coletar(r);
+
+                            if (recursoColetado != null) {
+                                recursosParaRemover.add(r);
+                                this.estoqueRecursos.put(recursoColetado, this.estoqueRecursos.get(recursoColetado) + 1);
+                            }
+                        }
+                    });
+                });
+        this.recursos.removeAll(recursosParaRemover);
+        this.repaint();
+    }
+
+    /**
+     * Verifica a distância entre os recursos e o personagem
+     *
+     * @param recurso
+     * @param personagem
+     * @return boolean
+     */
+    public boolean distancia(CriarRecurso recurso, Personagem personagem){
+        if(pow((recurso.getPosX() - personagem.getX()),2) + pow((recurso.getPosY() - personagem.getY()),2) <= 1500) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -111,5 +180,14 @@ public void atacarPersonagem(Class<? extends Personagem> clazz) {
 
         // Fazendo o JPanel ser redesenhado
         this.repaint();
+    }
+
+    /**
+     * Retorna o map contendo a quantidade de recursos coletados
+     *
+     * @return Map<Recurso, Integer>
+     */
+    public Map<Recurso, Integer> getEstoqueRecursos() {
+        return estoqueRecursos;
     }
 }

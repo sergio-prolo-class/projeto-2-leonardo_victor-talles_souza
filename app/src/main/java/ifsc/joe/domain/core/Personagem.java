@@ -1,14 +1,10 @@
 package ifsc.joe.domain.core;
 
-import ifsc.joe.consts.Constantes;
 import ifsc.joe.enums.Direcao;
 import ifsc.joe.ui.ResourceManager;
-import ifsc.joe.ui.Tela;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static java.lang.Math.pow;
 
 public abstract class Personagem {
     protected int posX, posY;
@@ -45,7 +41,7 @@ public abstract class Personagem {
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(int posX, int posY, String nomeImagemInicial,String nomeImagemInvertida, double velocidade, int vida) {
+    public Personagem(int posX, int posY, String nomeImagemInicial, double velocidade, int vida) {
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
@@ -120,5 +116,4 @@ public abstract class Personagem {
     public final void inverter(){
         this.olhandoParaEsquerda = !this.olhandoParaEsquerda;
     }
-
 }

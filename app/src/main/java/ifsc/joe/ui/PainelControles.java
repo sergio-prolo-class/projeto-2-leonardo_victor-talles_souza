@@ -1,6 +1,7 @@
 package ifsc.joe.ui;
 
 import ifsc.joe.consts.Constantes;
+import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.domain.core.Personagem;
@@ -8,9 +9,12 @@ import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.Recurso;
 import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,11 +25,12 @@ import java.util.Random;
  * Classe responsável por gerenciar os controles e interações da interface.
  * Conecta os componentes visuais com a lógica do jogo (Tela).
  */
-public class PainelControles  {
+public class PainelControles {
     private final Random sorteio;
     private Tela tela;
     private int count;
     private Class<? extends ComMontaria> classeMontariaAtual;
+    private Class<? extends Coletador> classeColetadorAtual;
     private Class<? extends Personagem> classePersonagemAtual;
     private Class<? extends Guerreiro> classeGuerreiroAtual;
     private final JRadioButton[] filtro = new JRadioButton[4];
@@ -48,6 +53,8 @@ public class PainelControles  {
     private JButton buttonDireita;
     private JLabel logo;
     private JButton montarButton;
+    private JButton coletarButton;
+    private JTable recursos;
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -55,9 +62,12 @@ public class PainelControles  {
         this.classeMontariaAtual = ComMontaria.class;
         this.classePersonagemAtual = Personagem.class;
         this.classeGuerreiroAtual = Guerreiro.class;
+        this.classeColetadorAtual = Coletador.class;
+        iniciarGeradorRecursos();
         configurarListeners();
         inicializarArrayFiltro();
         configurarKeyBindings();
+        table();
         desativarTeclas();
     }
 
@@ -70,12 +80,13 @@ public class PainelControles  {
         configurarBotoesCriacao();
         configurarBotaoAtaque(Guerreiro.class);
         configurarBotaoMontar(ComMontaria.class);
+        configurarBotaoColetar(Coletador.class);
     }
 
     /**
      * Configura todos os listeners dos botões de movimento
      */
-    private void configurarBotoesMovimento( Class<? extends Personagem> clazz) {
+    private void configurarBotoesMovimento(Class<? extends Personagem> clazz) {
         removerTodosActionListeners(buttonCima);
         buttonCima.addActionListener(e -> getTela().movimentarPersonagem(Direcao.CIMA, clazz));
 
@@ -106,11 +117,33 @@ public class PainelControles  {
     private void configurarBotoesSelecionar() {
         todosRadioButton.addActionListener(e -> passarClasse(Personagem.class));
 
-        aldeaoRadioButton.addActionListener( e -> passarClasse(Aldeao.class));
+        aldeaoRadioButton.addActionListener(e -> passarClasse(Aldeao.class));
 
         arqueiroRadioButton.addActionListener(e -> passarClasse(Arqueiro.class));
 
         cavaleiroRadioButton.addActionListener(e -> passarClasse(Cavaleiro.class));
+    }
+
+    /**
+     *  Metodo que cria e gerencia a tabela de recursos coletados
+     */
+    private void table() {
+        String[][] dados = {
+                Constantes.COLUNA,
+                {String.valueOf(getTela().getEstoqueRecursos().get(Recurso.OURO)),
+                        String.valueOf(getTela().getEstoqueRecursos().get(Recurso.MADEIRA)),
+                        String.valueOf(getTela().getEstoqueRecursos().get(Recurso.COMIDA))}
+        };
+
+        TableModel tableModel = new DefaultTableModel(dados, Constantes.COLUNA) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        recursos.setModel(tableModel);
+        recursos.repaint();
     }
 
     /**
@@ -138,7 +171,17 @@ public class PainelControles  {
         } else if (clazz.equals(Personagem.class)) {
             configurarBotaoMontar(ComMontaria.class);
         } else {
-            configurarBotaoMontar(ComMontaria.class);
+            montarButton.setEnabled(false);
+        }
+
+        if (Coletador.class.isAssignableFrom(clazz)) {
+            @SuppressWarnings("unchecked")
+            Class<? extends Coletador> coletadorClazz = (Class<? extends Coletador>) clazz;
+            configurarBotaoColetar(coletadorClazz);
+        } else if (clazz.equals(Personagem.class)) {
+            configurarBotaoColetar(Coletador.class);
+        } else {
+            coletarButton.setEnabled(false);
         }
     }
 
@@ -153,12 +196,27 @@ public class PainelControles  {
     }
 
     /**
-     * Configura o listener do botão de montar
+     * Configura o listener do botão de coletar
      *
+     * @param clazz
+     */
+    private void configurarBotaoColetar(Class<? extends Coletador> clazz) {
+        this.classeColetadorAtual = clazz;
+        removerTodosActionListeners(coletarButton);
+        coletarButton.setEnabled(true);
+        coletarButton.addActionListener(e -> {
+            getTela().coletarRecurso(clazz);
+            table();
+        });
+    }
+
+    /**
+     * Configura o listener do botão de montar
      */
     private void configurarBotaoMontar(Class<? extends ComMontaria> clazz) {
         this.classeMontariaAtual = clazz;
         removerTodosActionListeners(montarButton);
+        montarButton.setEnabled(true);
         montarButton.addActionListener(e -> getTela().montarComMontaria(clazz));
         montarButton.setFocusable(false);
     }
@@ -199,11 +257,20 @@ public class PainelControles  {
             }
         });
 
+        inputMap.put(Constantes.KY_C, Constantes.COLETAR);
+        actionMap.put(Constantes.COLETAR, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getTela().coletarRecurso(classeColetadorAtual);
+                table();
+            }
+        });
+
         inputMap.put(Constantes.KY_SPACE, Constantes.ATACAR);
         actionMap.put(Constantes.ATACAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarMensagemNaoImplementado("tab");
+                mostrarMensagemNaoImplementado("SPACE");
             }
         });
 
@@ -215,6 +282,19 @@ public class PainelControles  {
             }
         });
         painelPrincipal.setFocusable(true);
+    }
+
+    /**
+     * Metodo que escolhe um recurso aleatório a cada tempo determinado
+     */
+    private void iniciarGeradorRecursos() {
+        Timer timer = new Timer(Constantes.DELAY, e -> {
+            Recurso[] recursos = Recurso.values();
+            Recurso recursoSorteado = recursos[sorteio.nextInt(recursos.length)];
+            getTela().criarRecurso(recursoSorteado, posicaoCriacao()[0], posicaoCriacao()[1]);
+        });
+
+        timer.start();
     }
 
     /**
