@@ -25,6 +25,8 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
         super(posX, posY,
                 Constantes.NOME_IMAGEM_ALDEAO,
                 Constantes.NOME_IMAGEM_ALDEAO_MONTADO,
+                Constantes.NOME_IMAGEM_ALDEAO_INVERTIDA,
+                Constantes.NOME_IMAGEM_ALDEAO_MONTADO_INVERTIDA,
                 Constantes.ALDEAO_VELOCIDADE,
                 Constantes.ALDEAO_VIDA_INICIAL);
         this.icone = this.imagemNormal;
@@ -40,10 +42,14 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-        this.icone = this.montado ? this.imagemVariante : this.imagemNormal;
 
-        // desenhando de fato a imagem no pai
+        if(this.montado){
+            this.icone = olhandoParaEsquerda ? imagemVariante : imagemVarianteInvertida;
+        }else{
+            this.icone = olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;
+        }
         g.drawImage(this.icone, this.posX, this.posY, painel);
+        // desenhando de fato a imagem no pai
     }
 
     /**

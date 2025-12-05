@@ -5,12 +5,21 @@ import java.awt.event.KeyEvent;
 
 public final class Constantes {
 
+    public static final String SANGUE = "sangue";
+
     // Constates da criação das imagens
     public static final String NOME_IMAGEM_ALDEAO = "aldeao3";
+    public static final String NOME_IMAGEM_ALDEAO_INVERTIDA = "aldeaoInvertido";
     public static final String NOME_IMAGEM_ALDEAO_MONTADO = "aldeao-montado";
     public static final String NOME_IMAGEM_CAVALEIRO_MONTADO = "cavaleiro";
     public static final String NOME_IMAGEM_CAVALEIRO = "guerreiro";
+    public static final String NOME_IMAGEM_CAVALEIRO_INVERTIDA = "guerreiroInvertido";
     public static final String NOME_IMAGEM_ARQUEIRO = "arqueiro";
+    public static final String NOME_IMAGEM_ARQUEIRO_INVERTIDA = "arqueiroInvertido";
+
+    public static final String NOME_IMAGEM_CAVALEIRO_MONTADO_INVERTIDA =  "cavaleiroInvertido";
+    public static final String NOME_IMAGEM_ALDEAO_MONTADO_INVERTIDA = "aldeao-montado-invertido";
+    public static final String nomeImagemSangue = "sangue";
 
     // Constantes do Aldeão
     public static final int ALDEAO_VIDA_INICIAL = 25;
@@ -23,6 +32,7 @@ public final class Constantes {
     public static final int CAVALEIRO_ATAQUE = 3;
     public static final double CAVALEIRO_VELOCIDADE = 2;
     public static final double CAVALEIRO_VELOCIDADE_NAO_MONTADO = 1;
+
 
     // Constantes do Arqueiro
     public static final int ARQUEIRO_VIDA_INICIAL = 35;
@@ -56,9 +66,6 @@ public final class Constantes {
     public static final String CIMA = "cima";
     public static final String DIREITA = "direita";
     public static final String BAIXO = "baixo";
-
-
-
 
 
 

@@ -22,11 +22,14 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
                 posY,
                 Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO,
                 Constantes.NOME_IMAGEM_CAVALEIRO,
+                Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO_INVERTIDA,
+                Constantes.NOME_IMAGEM_CAVALEIRO_INVERTIDA,
                 Constantes.CAVALEIRO_VELOCIDADE,
                 Constantes.CAVALEIRO_VIDA_INICIAL);
         this.icone = this.imagemNormal;
         this.ataque = Constantes.CAVALEIRO_ATAQUE;
         this.montado = true;
+
     }
 
     /**
@@ -39,9 +42,14 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-        this.icone = this.montado ? this.imagemNormal : this.imagemVariante;
-        // desenhando de fato a imagem no pai
+
+        if(this.montado){
+            this.icone = this.olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;
+        }else{
+            this.icone = this.olhandoParaEsquerda ? this.imagemVariante : this.imagemVarianteInvertida;
+        }
         g.drawImage(this.icone, this.posX, this.posY, painel);
+        // desenhando de fato a imagem no pai
     }
 
     /**
@@ -64,6 +72,5 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
         if(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2) <= 705) {
             p.sofreDano(this.ataque);
         }
-
     }
 }

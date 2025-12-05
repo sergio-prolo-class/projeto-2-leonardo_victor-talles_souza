@@ -1,7 +1,9 @@
 package ifsc.joe.domain.core;
 
+import ifsc.joe.consts.Constantes;
 import ifsc.joe.enums.Direcao;
 import ifsc.joe.ui.ResourceManager;
+import ifsc.joe.ui.Tela;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,36 +14,48 @@ public abstract class Personagem {
     protected int posX, posY;
     protected Image icone;
     protected String nomeImagemInicial;
+    protected String nomeImagemInvertida;
     protected String nomeImagemVariante;
+    protected String nomeImagemVarianteInvertida;
 
     protected Image imagemNormal;
     protected Image imagemVariante;
+    protected Image imagemVarianteInvertida;
+    protected Image imagemInvertida;
 
     protected double velocidade;
     protected int vida;
+    protected boolean olhandoParaEsquerda;
 
     // Construtor
-    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemVariante, double velocidade, int vida) {
+    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
             this.posX = posX;
             this.posY = posY;
             this.nomeImagemInicial = nomeImagemInicial;
+            this.nomeImagemInvertida = nomeImagemInvertida;
             this.nomeImagemVariante = nomeImagemVariante;
+            this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
             this.velocidade = velocidade;
             this.vida = vida;
 
+            this.olhandoParaEsquerda = true;
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = ResourceManager.getImagens(nomeImagemVariante);
+        this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
+        this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(int posX, int posY, String nomeImagemInicial, double velocidade, int vida) {
+    public Personagem(int posX, int posY, String nomeImagemInicial,String nomeImagemInvertida, double velocidade, int vida) {
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
         this.velocidade = velocidade;
         this.vida = vida;
 
+        this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = null;
+        this.olhandoParaEsquerda = true;
     }
 
     /**
@@ -88,9 +102,23 @@ public abstract class Personagem {
 
     public final void sofreDano(int vida) {
         this.vida -= vida;
-        //teste
+        //O print é teste
         System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
+        this.morrer();
     }
 
+    public final void morrer(){
+        if(this.vida <= 0){
+            //this.icone = ResourceManager.getImagens(Constantes.SANGUE);
+        }
+    }
+
+//    public final void sangrar(){
+//        this.icone = ResourceManager.getImagens(Constantes.SANGUE);
+//    }
+
+    public final void inverter(){
+        this.olhandoParaEsquerda = !this.olhandoParaEsquerda;
+    }
 
 }

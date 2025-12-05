@@ -146,7 +146,7 @@ public class PainelControles  {
      * Configura o listener do botão de ataque
      */
     private void configurarBotaoAtaque(Class<? extends Guerreiro> clazz) {
-        this.classeGuerreiroAtual = clazz;
+        this.classeGuerreiroAtual = clazz; //talvez isso não faz nada
         removerTodosActionListeners(atacarButton);
         atacarButton.addActionListener(e -> getTela().atacarPersonagem(classePersonagemAtual));
         montarButton.setFocusable(false);

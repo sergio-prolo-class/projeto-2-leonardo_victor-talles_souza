@@ -28,6 +28,7 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
         super(posX,
                 posY,
                 Constantes.NOME_IMAGEM_ARQUEIRO,
+                Constantes.NOME_IMAGEM_ARQUEIRO_INVERTIDA,
                 Constantes.ARQUEIRO_VELOCIDADE,
                 Constantes.ARQUEIRO_VIDA_INICIAL);
         this.icone = this.imagemNormal;
@@ -45,8 +46,10 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
         if (this.getVida() < 0) return;
-        // desenhando de fato a imagem no pai
+
+        this.icone = olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;
         g.drawImage(this.icone, this.posX, this.posY, painel);
+        // desenhando de fato a imagem no pai
     }
 
     /**

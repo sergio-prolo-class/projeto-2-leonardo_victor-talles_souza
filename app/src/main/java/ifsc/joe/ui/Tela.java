@@ -67,24 +67,37 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
-    public void atacarPersonagem(Class<? extends Personagem> clazz) {
-
-        this.personagens.stream()
+public void atacarPersonagem(Class<? extends Personagem> clazz) {
+    this.personagens.stream()
             .filter(clazz::isInstance)
-            .filter(Guerreiro.class::isInstance) // só pode atacar quem é guerreiro
+            .filter(Guerreiro.class::isInstance)
             .map(Guerreiro.class::cast)
             .forEach(g -> {
+
+                Personagem p = (Personagem) g;
+
+                // INVERTE O LADO AO ATACAR
+                p.inverter();
+                this.repaint();
+
+                // ATACA
                 this.personagens.stream()
-                        .filter(other -> other != g)
+                        .filter(other -> other != p)
                         .forEach(g::atacar);
+
+                // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
+                Timer t = new Timer(150, e -> {
+                    p.inverter();
+                    this.repaint();
+                });
+                t.setRepeats(false);
+                t.start();
+
             });
 
-        // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
-        // Percorrendo a lista de aldeões e pedindo para todos atacarem
-        //this.aldeoes.forEach(Aldeao::alternarMontado);
-        // Fazendo o JPanel ser redesenhado
-        this.repaint();
-    }
+    this.repaint();
+}
+
 
     /**
      * Altera o estado do personage de montado para não montado e vice-versa
