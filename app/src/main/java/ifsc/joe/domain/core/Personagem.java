@@ -1,10 +1,13 @@
 package ifsc.joe.domain.core;
 
+import ifsc.joe.domain.impl.CriarRecurso;
 import ifsc.joe.enums.Direcao;
 import ifsc.joe.ui.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static java.lang.Math.pow;
 
 public abstract class Personagem {
     protected int posX, posY;
@@ -68,12 +71,19 @@ public abstract class Personagem {
         this.posY = Math.min(Math.max(0, this.posY), maxAltura - this.icone.getHeight(null));
     }
 
-
     public final double getVelocidade() {
         return velocidade;
     }
 
     public final int getVida() {
         return vida;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 }

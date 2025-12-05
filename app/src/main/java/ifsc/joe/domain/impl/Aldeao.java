@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
+import static java.lang.Math.pow;
+
 public class Aldeao extends Personagem implements ComMontaria, Coletador {
 
     public static final Set<Recurso> COLETAVEIS;
@@ -62,10 +64,8 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
      *
      */
     @Override
-    public boolean coletar(Recurso recurso) {
-        if (!COLETAVEIS.contains(recurso)) return false;
-        if (recurso == Recurso.OURO) this.ouroColetado++;
-        if (recurso == Recurso.COMIDA) this.comidaColetada++;
-        return true;
+    public Recurso coletar(CriarRecurso p) {
+        if (!COLETAVEIS.contains(p.getTipo())) return null;
+        return p.getTipo();
     }
 }

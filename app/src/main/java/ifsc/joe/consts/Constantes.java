@@ -39,6 +39,7 @@ public final class Constantes {
     public static final KeyStroke KY_2 = KeyStroke.getKeyStroke(KeyEvent.VK_2, 0);
     public static final KeyStroke KY_3 = KeyStroke.getKeyStroke(KeyEvent.VK_3, 0);
     public static final KeyStroke KY_M = KeyStroke.getKeyStroke(KeyEvent.VK_M, 0);
+    public static final KeyStroke KY_C = KeyStroke.getKeyStroke(KeyEvent.VK_C, 0);
     public static final KeyStroke KY_SPACE = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0);
     public static final KeyStroke KY_TAB = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
     public static final KeyStroke KY_LEFT = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
@@ -50,6 +51,7 @@ public final class Constantes {
     public static final String CRIAR_CAVALEIRO = "criarCavaleiro";
     public static final String CRIAR_ARQUEIRO = "criarArqueiro";
     public static final String MONTAR = "montar";
+    public static final String COLETAR = "coletar";
     public static final String ATACAR = "atacar";
     public static final String ALTERNAR_FILTROS = "alternarFiltros";
     public static final String ESQUERDA = "esquerda";
@@ -57,9 +59,7 @@ public final class Constantes {
     public static final String DIREITA = "direita";
     public static final String BAIXO = "baixo";
 
+    public static final int DELAY = 5000;
 
-
-
-
-
+    public static final String[] COLUNA = {"Ouro", "Madeira", "Comida"};
 }
