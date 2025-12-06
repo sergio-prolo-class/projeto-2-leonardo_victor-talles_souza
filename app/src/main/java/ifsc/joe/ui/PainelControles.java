@@ -183,6 +183,16 @@ public class PainelControles {
         } else {
             coletarButton.setEnabled(false);
         }
+
+        if (Guerreiro.class.isAssignableFrom(clazz)) {
+            @SuppressWarnings("unchecked")
+            Class<? extends Guerreiro> gerreiroClazz = (Class<? extends Guerreiro>) clazz;
+            configurarBotaoAtaque(gerreiroClazz);
+        } else if (clazz.equals(Personagem.class)) {
+            configurarBotaoAtaque(Guerreiro.class);
+        } else {
+            atacarButton.setEnabled(false);
+        }
     }
 
     /**
@@ -191,7 +201,8 @@ public class PainelControles {
     private void configurarBotaoAtaque(Class<? extends Guerreiro> clazz) {
         this.classeGuerreiroAtual = clazz; //talvez isso não faz nada
         removerTodosActionListeners(atacarButton);
-        atacarButton.addActionListener(e -> getTela().atacarPersonagem(classePersonagemAtual));
+        atacarButton.setEnabled(true);
+        atacarButton.addActionListener(e -> getTela().atacarPersonagem(clazz));
         montarButton.setFocusable(false);
     }
 
@@ -270,7 +281,7 @@ public class PainelControles {
         actionMap.put(Constantes.ATACAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarMensagemNaoImplementado("SPACE");
+                getTela().atacarPersonagem(classeGuerreiroAtual);
             }
         });
 

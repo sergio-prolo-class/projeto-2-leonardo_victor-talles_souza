@@ -41,7 +41,7 @@ public abstract class Personagem {
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(int posX, int posY, String nomeImagemInicial, double velocidade, int vida) {
+    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;

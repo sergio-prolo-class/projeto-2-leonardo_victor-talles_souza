@@ -136,7 +136,7 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
-public void atacarPersonagem(Class<? extends Personagem> clazz) {
+public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
     this.personagens.stream()
             .filter(clazz::isInstance)
             .filter(Guerreiro.class::isInstance)
