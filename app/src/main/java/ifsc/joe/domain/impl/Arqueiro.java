@@ -84,7 +84,7 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
 
     @Override
     public void atacar(Personagem p) {
-        if(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2) <= 1500) {
+        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= 150) {
             p.sofreDano(this.ataque);
             //reduzindo flechas
         }

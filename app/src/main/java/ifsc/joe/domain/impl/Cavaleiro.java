@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Set;
 
 import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
 
@@ -71,7 +72,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      */
     @Override
     public void atacar(Personagem p) {
-        if(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2) <= 705) {
+        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= 75) {
             p.sofreDano(this.ataque);
         }
     }
