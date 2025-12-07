@@ -20,8 +20,9 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
 
     // Construtor
     public Cavaleiro(int posX, int posY) {
-        super(TipoPersonagem.CAVALEIRO
-                ,posX,
+        super(TipoPersonagem.CAVALEIRO,
+                0,
+                posX,
                 posY,
                 Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO,
                 Constantes.NOME_IMAGEM_CAVALEIRO,
@@ -43,6 +44,10 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      */
     @Override
     public void desenhar(Graphics g, JPanel painel) {
+
+        // ---- desenhar aura de alcance -----
+        desenharAlcanceAtaque(g);
+
         // verificando se ta vivo
         if (this.getVida() <= 0){
             this.icone = Sangramento;
@@ -51,6 +56,9 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
         }else{
             this.icone = this.olhandoParaEsquerda ? this.imagemVariante : this.imagemVarianteInvertida;
         }
+
+
+
         g.drawImage(this.icone, this.posX, this.posY, painel);
         // desenhando de fato a imagem no pai
     }
@@ -72,8 +80,14 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      */
     @Override
     public void atacar(Personagem p) {
-        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= 75) {
+        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= this.alcanceAtaque) {
             p.sofreDano(this.ataque);
+
         }
     }
+
+    public void setAlcanceAtaque() {
+        this.alcanceAtaque = Constantes.CAVALEIRO_ALCANCE_ATAQUE;
+    }
+
 }

@@ -26,12 +26,15 @@ public abstract class Personagem {
     protected double velocidade;
     protected int vida;
     protected boolean olhandoParaEsquerda;
+    protected int alcanceAtaque;
+
 
     protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
 
     // Construtor
-    public Personagem(TipoPersonagem Tipo, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
             this.tipo = Tipo;
+            this.alcanceAtaque = alcanceAtaque;
             this.posX = posX;
             this.posY = posY;
             this.nomeImagemInicial = nomeImagemInicial;
@@ -48,8 +51,9 @@ public abstract class Personagem {
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(TipoPersonagem Tipo, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
         this.tipo = Tipo;
+        this.alcanceAtaque = alcanceAtaque;
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
@@ -69,6 +73,13 @@ public abstract class Personagem {
      * @param g objeto do JPanel que será usado para desenhar o personagem
      */
     public abstract void desenhar(Graphics g, JPanel painel);
+
+    // Define o alcance de ataque do personagem (diferente para cada tipo de personagem)
+    public abstract void setAlcanceAtaque();
+
+    public final void zerarAlcanceAtaque() {
+        this.alcanceAtaque = 0;
+    }
 
     /**
      * Atualiza as coordenadas X e Y do personagem
@@ -116,5 +127,19 @@ public abstract class Personagem {
 
     public final TipoPersonagem getTipo() {
         return tipo;
+    }
+
+    public final void desenharAlcanceAtaque(Graphics g) {
+        if (this.alcanceAtaque > 0) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(new Color(0, 0, 255, 50)); // azul transparente
+            g2.setStroke(new BasicStroke(2f));
+            g2.drawOval(
+                    this.posX + imagemNormal.getWidth(null) / 2 - alcanceAtaque,
+                    this.posY + imagemNormal.getHeight(null) / 2 - alcanceAtaque,
+                    alcanceAtaque * 2,
+                    alcanceAtaque * 2
+            );
+        }
     }
 }

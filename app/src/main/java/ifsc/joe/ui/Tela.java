@@ -151,6 +151,7 @@ public class Tela extends JPanel {
 
                     // INVERTE O LADO AO ATACAR
                     p.inverter();
+                    p.setAlcanceAtaque();
                     this.repaint();
 
                     // ATACA
@@ -173,6 +174,7 @@ public class Tela extends JPanel {
                     // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
                     Timer t = new Timer(150, e -> {
                         p.inverter();
+                        p.zerarAlcanceAtaque();
                         this.repaint();
                     });
                     t.setRepeats(false);

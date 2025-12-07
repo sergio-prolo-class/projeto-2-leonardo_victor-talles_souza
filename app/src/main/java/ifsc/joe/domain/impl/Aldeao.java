@@ -25,8 +25,10 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     }
 
     public Aldeao(int posX, int posY) {
-        super(TipoPersonagem.ALDEAO
-                ,posX, posY,
+        super(TipoPersonagem.ALDEAO,
+                Constantes.ALDEAO_ALCANCE_ATAQUE,
+                posX,
+                posY,
                 Constantes.NOME_IMAGEM_ALDEAO,
                 Constantes.NOME_IMAGEM_ALDEAO_MONTADO,
                 Constantes.NOME_IMAGEM_ALDEAO_INVERTIDA,
@@ -75,5 +77,10 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     public Recurso coletar(CriarRecurso p) {
         if (!COLETAVEIS.contains(p.getTipo())) return null;
         return p.getTipo();
+    }
+
+    @Override
+    public void setAlcanceAtaque() {
+        this.alcanceAtaque = Constantes.ALDEAO_ALCANCE_ATAQUE;
     }
 }

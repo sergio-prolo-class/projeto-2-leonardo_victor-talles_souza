@@ -26,8 +26,9 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     }
 
     public Arqueiro(int posX, int posY) {
-        super(TipoPersonagem.ARQUEIRO
-                ,posX,
+        super(TipoPersonagem.ARQUEIRO,
+                0,
+                posX,
                 posY,
                 Constantes.NOME_IMAGEM_ARQUEIRO,
                 Constantes.NOME_IMAGEM_ARQUEIRO_INVERTIDA,
@@ -46,6 +47,9 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
      */
     @Override
     public void desenhar(Graphics g, JPanel painel) {
+
+        desenharAlcanceAtaque(g);
+
         // verificando se ta vivo
         if (this.getVida() <= 0){
             this.icone = Sangramento;
@@ -84,10 +88,12 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
 
     @Override
     public void atacar(Personagem p) {
-        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= 150) {
+        if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= this.alcanceAtaque) {
             p.sofreDano(this.ataque);
             //reduzindo flechas
         }
-
+    }
+    public void setAlcanceAtaque() {
+        this.alcanceAtaque = Constantes.ARQUEIRO_ALCANCE_ATAQUE;
     }
 }
