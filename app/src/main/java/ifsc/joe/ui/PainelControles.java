@@ -55,6 +55,7 @@ public class PainelControles {
     private JButton montarButton;
     private JButton coletarButton;
     private JTable recursos;
+    private JTable mortes;
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -127,7 +128,7 @@ public class PainelControles {
     /**
      *  Metodo que cria e gerencia a tabela de recursos coletados
      */
-    private void table() {
+    public void table() {
         String[][] dados = {
                 Constantes.COLUNA,
                 {String.valueOf(getTela().getEstoqueRecursos().get(Recurso.OURO)),
@@ -142,7 +143,24 @@ public class PainelControles {
             }
         };
 
+        String[][] dados2 = {
+                Constantes.COLUNA_MORRTES,
+                {String.valueOf(getTela().getMortesPorTipo().get(TipoPersonagem.ALDEAO)),
+                        String.valueOf(getTela().getMortesPorTipo().get(TipoPersonagem.CAVALEIRO)),
+                        String.valueOf(getTela().getMortesPorTipo().get(TipoPersonagem.ARQUEIRO))}
+        };
+
+        TableModel tableModel2 = new DefaultTableModel(dados2, Constantes.COLUNA_MORRTES) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+
+
         recursos.setModel(tableModel);
+        mortes.setModel(tableModel2);
         recursos.repaint();
     }
 
@@ -202,8 +220,12 @@ public class PainelControles {
         this.classeGuerreiroAtual = clazz; //talvez isso não faz nada
         removerTodosActionListeners(atacarButton);
         atacarButton.setEnabled(true);
-        atacarButton.addActionListener(e -> getTela().atacarPersonagem(clazz));
+        atacarButton.addActionListener(e -> {
+            getTela().atacarPersonagem(clazz);
+            table();
+        });
         montarButton.setFocusable(false);
+
     }
 
     /**

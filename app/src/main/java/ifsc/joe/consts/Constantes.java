@@ -71,4 +71,5 @@ public final class Constantes {
     public static final int DELAY = 5000;
 
     public static final String[] COLUNA = {"Ouro", "Madeira", "Comida"};
+    public static final String[] COLUNA_MORRTES = {"Aldeões", "Cavaleiros", "Arqueiros"};
 }

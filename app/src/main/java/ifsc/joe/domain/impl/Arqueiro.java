@@ -5,6 +5,7 @@ import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.enums.Recurso;
+import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +26,8 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     }
 
     public Arqueiro(int posX, int posY) {
-        super(posX,
+        super(TipoPersonagem.ARQUEIRO
+                ,posX,
                 posY,
                 Constantes.NOME_IMAGEM_ARQUEIRO,
                 Constantes.NOME_IMAGEM_ARQUEIRO_INVERTIDA,
@@ -45,9 +47,9 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
     @Override
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
-        if (this.getVida() < 0) return;
-
-        this.icone = olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;
+        if (this.getVida() <= 0){
+            this.icone = Sangramento;
+        }else{this.icone = olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;}
         g.drawImage(this.icone, this.posX, this.posY, painel);
         // desenhando de fato a imagem no pai
     }

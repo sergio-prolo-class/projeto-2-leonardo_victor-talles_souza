@@ -4,6 +4,7 @@ import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.api.Guerreiro;
 import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
+import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,8 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
 
     // Construtor
     public Cavaleiro(int posX, int posY) {
-        super(posX,
+        super(TipoPersonagem.CAVALEIRO
+                ,posX,
                 posY,
                 Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO,
                 Constantes.NOME_IMAGEM_CAVALEIRO,
@@ -41,9 +43,9 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     @Override
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
-        if (this.getVida() < 0) return;
-
-        if(this.montado){
+        if (this.getVida() <= 0){
+            this.icone = Sangramento;
+        }else if(this.montado){
             this.icone = this.olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;
         }else{
             this.icone = this.olhandoParaEsquerda ? this.imagemVariante : this.imagemVarianteInvertida;

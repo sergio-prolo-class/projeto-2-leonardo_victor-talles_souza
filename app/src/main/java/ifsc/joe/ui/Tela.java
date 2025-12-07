@@ -23,6 +23,7 @@ public class Tela extends JPanel {
     private final Set<Personagem> personagens;
     private final Set<CriarRecurso> recursos;
     private final Map<Recurso, Integer> estoqueRecursos;
+    private final Map<TipoPersonagem, Integer> MortesPorTipo;
 
     public Tela() {
 
@@ -30,9 +31,13 @@ public class Tela extends JPanel {
         this.personagens = new HashSet<>();
         this.recursos = new HashSet<>();
         this.estoqueRecursos = new HashMap<>();
+        this.MortesPorTipo = new HashMap<>();
 
         for (Recurso r : Recurso.values()) {
             this.estoqueRecursos.put(r, 0);
+        }
+        for (TipoPersonagem p : TipoPersonagem.values()) {
+            this.MortesPorTipo.put(p, 0);
         }
 
     }
@@ -112,10 +117,7 @@ public class Tela extends JPanel {
      * @return boolean
      */
     public boolean distancia(CriarRecurso recurso, Personagem personagem){
-        if(pow((recurso.getPosX() - personagem.getX()),2) + pow((recurso.getPosY() - personagem.getY()),2) <= 1500) {
-            return true;
-        }
-        return false;
+        return pow((recurso.getPosX() - personagem.getX()), 2) + pow((recurso.getPosY() - personagem.getY()), 2) <= 1500;
     }
 
     /**
@@ -136,36 +138,50 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
-public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
-    this.personagens.stream()
-            .filter(clazz::isInstance)
-            .filter(Guerreiro.class::isInstance)
-            .map(Guerreiro.class::cast)
-            .forEach(g -> {
+    public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
+        Set<Personagem> MortosParaRemover = new HashSet<>();
 
-                Personagem p = (Personagem) g;
+        this.personagens.stream()
+                .filter(clazz::isInstance)
+                .filter(Guerreiro.class::isInstance)
+                .map(Guerreiro.class::cast)
+                .forEach(g -> {
 
-                // INVERTE O LADO AO ATACAR
-                p.inverter();
-                this.repaint();
+                    Personagem p = (Personagem) g;
 
-                // ATACA
-                this.personagens.stream()
-                        .filter(other -> other != p)
-                        .forEach(g::atacar);
-
-                // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
-                Timer t = new Timer(150, e -> {
+                    // INVERTE O LADO AO ATACAR
                     p.inverter();
                     this.repaint();
+
+                    // ATACA
+                    this.personagens.stream()
+                            .filter(other -> other != p)
+                            .forEach(q -> {
+                                g.atacar(q);
+                                if (q.getVida() <= 0 && q != null) {
+                                    MortosParaRemover.add(q);
+                                    TipoPersonagem tipo = q.getTipo();
+                                    this.MortesPorTipo.put(tipo, this.MortesPorTipo.get(tipo) + 1);
+                                }
+                            });
+                    // PERSONAGENS MORTOS SANGRAM POR UM TEMPO
+                    Timer t2 = new Timer(500, e -> {
+                        this.personagens.removeAll(MortosParaRemover);
+                    });
+                    t2.setRepeats(false);
+                    t2.start();
+                    // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
+                    Timer t = new Timer(150, e -> {
+                        p.inverter();
+                        this.repaint();
+                    });
+                    t.setRepeats(false);
+                    t.start();
+
                 });
-                t.setRepeats(false);
-                t.start();
 
-            });
-
-    this.repaint();
-}
+        this.repaint();
+    }
 
 
     /**
@@ -189,5 +205,8 @@ public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
      */
     public Map<Recurso, Integer> getEstoqueRecursos() {
         return estoqueRecursos;
+    }
+    public Map<TipoPersonagem, Integer> getMortesPorTipo() {
+        return MortesPorTipo;
     }
 }

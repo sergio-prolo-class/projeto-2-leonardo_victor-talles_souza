@@ -5,6 +5,7 @@ import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.enums.Recurso;
+import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,8 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     }
 
     public Aldeao(int posX, int posY) {
-        super(posX, posY,
+        super(TipoPersonagem.ALDEAO
+                ,posX, posY,
                 Constantes.NOME_IMAGEM_ALDEAO,
                 Constantes.NOME_IMAGEM_ALDEAO_MONTADO,
                 Constantes.NOME_IMAGEM_ALDEAO_INVERTIDA,
@@ -43,9 +45,9 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
     @Override
     public void desenhar(Graphics g, JPanel painel) {
         // verificando se ta vivo
-        if (this.getVida() < 0) return;
-
-        if(this.montado){
+        if (this.getVida() <= 0){
+            this.icone = Sangramento;
+        }else if(this.montado){
             this.icone = olhandoParaEsquerda ? imagemVariante : imagemVarianteInvertida;
         }else{
             this.icone = olhandoParaEsquerda ? this.imagemNormal : this.imagemInvertida;

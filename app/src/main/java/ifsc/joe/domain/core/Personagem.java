@@ -1,12 +1,16 @@
 package ifsc.joe.domain.core;
 
+import ifsc.joe.consts.Constantes;
 import ifsc.joe.enums.Direcao;
+import ifsc.joe.enums.Recurso;
+import ifsc.joe.enums.TipoPersonagem;
 import ifsc.joe.ui.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public abstract class Personagem {
+    private final TipoPersonagem tipo;
     protected int posX, posY;
     protected Image icone;
     protected String nomeImagemInicial;
@@ -23,8 +27,11 @@ public abstract class Personagem {
     protected int vida;
     protected boolean olhandoParaEsquerda;
 
+    protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
+
     // Construtor
-    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
+            this.tipo = Tipo;
             this.posX = posX;
             this.posY = posY;
             this.nomeImagemInicial = nomeImagemInicial;
@@ -41,7 +48,8 @@ public abstract class Personagem {
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
+        this.tipo = Tipo;
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
@@ -100,20 +108,13 @@ public abstract class Personagem {
         this.vida -= vida;
         //O print é teste
         System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
-        this.morrer();
     }
-
-    public final void morrer(){
-        if(this.vida <= 0){
-            //this.icone = ResourceManager.getImagens(Constantes.SANGUE);
-        }
-    }
-
-//    public final void sangrar(){
-//        this.icone = ResourceManager.getImagens(Constantes.SANGUE);
-//    }
 
     public final void inverter(){
         this.olhandoParaEsquerda = !this.olhandoParaEsquerda;
+    }
+
+    public final TipoPersonagem getTipo() {
+        return tipo;
     }
 }
