@@ -136,7 +136,9 @@ public class Tela extends JPanel {
     }
 
 //    /**
-//     * Altera o estado do aldeão de atacando para não atacando e vice-versa
+//     * O metodo atacarPersonagem faz com que todos os personagens do tipo Guerreiro ataquem todos os outros personagens
+//     * presentes na tela. Se algum personagem tiver sua vida reduzida a zero ou menos durante o ataque, ele é marcado para remoção
+//     * e contabilizado no mapa MortesPorTipo.
 //     */
     public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
         Set<Personagem> MortosParaRemover = new HashSet<>();

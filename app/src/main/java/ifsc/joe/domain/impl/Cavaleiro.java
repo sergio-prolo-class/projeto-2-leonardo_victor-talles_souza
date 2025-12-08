@@ -42,9 +42,10 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      *
      * @param g objeto do JPanel que será usado para desenhar o Aldeão
      */
+
     @Override
     public void desenhar(Graphics g, JPanel painel) {
-
+        drawBarra(g);
         // ---- desenhar aura de alcance -----
         desenharAlcanceAtaque(g);
 

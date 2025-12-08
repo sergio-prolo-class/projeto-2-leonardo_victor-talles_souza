@@ -46,6 +46,8 @@ public class Aldeao extends Personagem implements ComMontaria, Coletador {
      */
     @Override
     public void desenhar(Graphics g, JPanel painel) {
+        drawBarra(g);
+
         // verificando se ta vivo
         if (this.getVida() <= 0){
             this.icone = Sangramento;

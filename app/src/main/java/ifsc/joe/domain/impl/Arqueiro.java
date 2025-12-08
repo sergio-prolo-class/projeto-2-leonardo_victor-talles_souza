@@ -47,6 +47,7 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
      */
     @Override
     public void desenhar(Graphics g, JPanel painel) {
+        drawBarra(g);
 
         desenharAlcanceAtaque(g);
 

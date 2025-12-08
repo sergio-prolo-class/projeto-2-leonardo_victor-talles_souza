@@ -27,6 +27,7 @@ public abstract class Personagem {
     protected int vida;
     protected boolean olhandoParaEsquerda;
     protected int alcanceAtaque;
+    protected final int vidaMaxima;
 
 
     protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
@@ -43,6 +44,7 @@ public abstract class Personagem {
             this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
             this.velocidade = velocidade;
             this.vida = vida;
+            this.vidaMaxima = vida;
 
             this.olhandoParaEsquerda = true;
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
@@ -59,6 +61,7 @@ public abstract class Personagem {
         this.nomeImagemInicial = nomeImagemInicial;
         this.velocidade = velocidade;
         this.vida = vida;
+        this.vidaMaxima = vida;
 
         this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
@@ -108,6 +111,10 @@ public abstract class Personagem {
         return vida;
     }
 
+    public final int getVidaMaxima() {
+        return vidaMaxima;
+    }
+
     public final int getX() {
         return this.posX;
     }
@@ -141,5 +148,38 @@ public abstract class Personagem {
                     alcanceAtaque * 2
             );
         }
+    }
+
+
+    public final void drawBarra(Graphics g) {
+        int x = this.getX();
+        int y = this.getY();
+
+        // caso quisesse add o personagem junto com a barra de vida (para ter um codigo mais legivel)
+        //g.drawImage(this.icone , x, y, null);
+
+        // DESENHAR BARRA DE VIDA
+        int vidaMax = this.getVidaMaxima();
+        int vida = this.getVida();
+
+        int barWidth = 40;
+        int barHeight = 5;
+        int barX = x;
+        int barY = y - 10; // acima da cabeça
+
+        // barra verde proporcional
+        int vidaLargura = (int) ((vida / (double) vidaMax) * barWidth);
+        if((double) getVida() /getVidaMaxima() < 0.25){
+            g.setColor(Color.RED);
+        }else if((double) getVida() /getVidaMaxima() > 0.75){
+            g.setColor(Color.GREEN);
+        }else{
+            g.setColor(Color.YELLOW);
+        }
+        g.fillRect(barX, barY, vidaLargura, barHeight);
+
+        // borda
+        g.setColor(Color.BLACK);
+        g.drawRect(barX, barY, barWidth, barHeight);
     }
 }
