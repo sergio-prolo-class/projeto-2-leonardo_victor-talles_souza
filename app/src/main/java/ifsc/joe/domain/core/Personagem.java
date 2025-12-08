@@ -8,6 +8,7 @@ import ifsc.joe.ui.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Personagem {
     private final TipoPersonagem tipo;
@@ -26,15 +27,17 @@ public abstract class Personagem {
     protected double velocidade;
     protected int vida;
     protected boolean olhandoParaEsquerda;
-    protected int alcanceAtaque;
+    protected int alcanceAtaque = 0;
+    protected double chanceDeEsquivar;
+    protected boolean esquivando;
 
 
     protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
 
     // Construtor
-    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
             this.tipo = Tipo;
-            this.alcanceAtaque = alcanceAtaque;
+            this.chanceDeEsquivar = chanceDeEsquivar;
             this.posX = posX;
             this.posY = posY;
             this.nomeImagemInicial = nomeImagemInicial;
@@ -51,9 +54,9 @@ public abstract class Personagem {
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
     }
 
-    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
         this.tipo = Tipo;
-        this.alcanceAtaque = alcanceAtaque;
+        this.chanceDeEsquivar = chanceDeEsquivar;
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
@@ -142,4 +145,31 @@ public abstract class Personagem {
             );
         }
     }
+
+    public final boolean esquivar(){
+        Random gerador = new Random();
+        double valor = gerador.nextDouble();
+        if (this.chanceDeEsquivar >= valor){
+            return true;
+        }
+        return false;
+    }
+
+    public final void desenharEsquiva(Graphics g){
+        int x = this.getX();
+        int y = this.getY();
+
+        String texto = "ESQUIVOU!";
+
+        int textoX = x;
+        int textoY = y - 20;  // 20 pixels acima da cabeça
+
+        g.setColor(Color.BLACK);
+        g.drawString(texto, textoX, textoY);
+    }
+
+    public final void alterarEsquivando(){
+        this.esquivando = !this.esquivando;
+    }
+
 }

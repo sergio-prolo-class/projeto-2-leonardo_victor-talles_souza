@@ -159,6 +159,7 @@ public class Tela extends JPanel {
                             .filter(other -> other != p)
                             .forEach(q -> {
                                 g.atacar(q);
+                                this.repaint();
                                 if (q.getVida() <= 0 && q != null) {
                                     MortosParaRemover.add(q);
                                     TipoPersonagem tipo = q.getTipo();
