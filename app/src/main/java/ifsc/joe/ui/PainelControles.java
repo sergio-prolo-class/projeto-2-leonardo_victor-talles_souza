@@ -304,6 +304,7 @@ public class PainelControles {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTela().atacarPersonagem(classeGuerreiroAtual);
+                table();
             }
         });
 
