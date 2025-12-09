@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * Classe responsável por gerenciar os controles e interações da interface.
@@ -182,34 +183,32 @@ public class PainelControles {
 
         configurarBotoesMovimento(clazz);
 
-        if (ComMontaria.class.isAssignableFrom(clazz)) {
-            @SuppressWarnings("unchecked")
-            Class<? extends ComMontaria> montariaClazz = (Class<? extends ComMontaria>) clazz;
-            configurarBotaoMontar(montariaClazz);
-        } else if (clazz.equals(Personagem.class)) {
-            configurarBotaoMontar(ComMontaria.class);
-        } else {
-            montarButton.setEnabled(false);
-        }
+        configurarBotaoEspecifico(ComMontaria.class, clazz, this::configurarBotaoMontar, montarButton);
 
-        if (Coletador.class.isAssignableFrom(clazz)) {
-            @SuppressWarnings("unchecked")
-            Class<? extends Coletador> coletadorClazz = (Class<? extends Coletador>) clazz;
-            configurarBotaoColetar(coletadorClazz);
-        } else if (clazz.equals(Personagem.class)) {
-            configurarBotaoColetar(Coletador.class);
-        } else {
-            coletarButton.setEnabled(false);
-        }
+        configurarBotaoEspecifico(Coletador.class, clazz, this::configurarBotaoColetar, coletarButton);
 
-        if (Guerreiro.class.isAssignableFrom(clazz)) {
-            @SuppressWarnings("unchecked")
-            Class<? extends Guerreiro> gerreiroClazz = (Class<? extends Guerreiro>) clazz;
-            configurarBotaoAtaque(gerreiroClazz);
-        } else if (clazz.equals(Personagem.class)) {
-            configurarBotaoAtaque(Guerreiro.class);
+        configurarBotaoEspecifico(Guerreiro.class, clazz, this::configurarBotaoAtaque, atacarButton);
+    }
+
+    /**
+     * metodo que configura o botão para uma uma determinada ação
+     *
+     * @param interfaceEsperada
+     * @param personagemClass
+     * @param configurador
+     * @param button
+     * @param <T>
+     */
+    private <T> void configurarBotaoEspecifico(Class<T> interfaceEsperada,
+                                               Class<? extends Personagem> personagemClass,
+                                               Consumer<Class<T>> configurador,
+                                               JButton button) {
+        if (interfaceEsperada.isAssignableFrom(personagemClass)) {
+            configurador.accept((Class<T>) personagemClass);
+        } else if (personagemClass.equals(Personagem.class)) {
+            configurador.accept(interfaceEsperada);
         } else {
-            atacarButton.setEnabled(false);
+            button.setEnabled(false);
         }
     }
 
@@ -286,7 +285,9 @@ public class PainelControles {
         actionMap.put(Constantes.MONTAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getTela().montarComMontaria(classeMontariaAtual);
+                if (!classePersonagemAtual.equals(Arqueiro.class)) {
+                    getTela().montarComMontaria(classeMontariaAtual);
+                }
             }
         });
 
@@ -294,8 +295,10 @@ public class PainelControles {
         actionMap.put(Constantes.COLETAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getTela().coletarRecurso(classeColetadorAtual);
-                table();
+                if (!classePersonagemAtual.equals(Cavaleiro.class)) {
+                    getTela().coletarRecurso(classeColetadorAtual);
+                    table();
+                }
             }
         });
 
@@ -303,8 +306,10 @@ public class PainelControles {
         actionMap.put(Constantes.ATACAR, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getTela().atacarPersonagem(classeGuerreiroAtual);
-                table();
+                if (!classePersonagemAtual.equals(Aldeao.class)) {
+                    getTela().atacarPersonagem(classeGuerreiroAtual);
+                    table();
+                }
             }
         });
 
