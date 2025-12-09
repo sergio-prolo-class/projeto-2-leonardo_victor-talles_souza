@@ -30,6 +30,9 @@ public abstract class Personagem {
     protected int alcanceAtaque = 0;
     protected double chanceDeEsquivar;
     protected boolean esquivando;
+    public long tempoEsquiva = 0;
+    public long tempoMorte = 0;
+
 
 
     protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
@@ -120,6 +123,8 @@ public abstract class Personagem {
 
     public final void sofreDano(int vida) {
         this.vida -= vida;
+        if (this.vida <= 0)
+            tempoMorte = System.currentTimeMillis();
         //O print é teste
         System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
     }
@@ -146,14 +151,16 @@ public abstract class Personagem {
         }
     }
 
-    public final boolean esquivar(){
+    public boolean esquivar() {
         Random gerador = new Random();
-        double valor = gerador.nextDouble();
-        if (this.chanceDeEsquivar >= valor){
+        if (gerador.nextDouble() < chanceDeEsquivar) {
+            esquivando = true;
+            tempoEsquiva = System.currentTimeMillis();
             return true;
         }
         return false;
     }
+
 
     public final void desenharEsquiva(Graphics g){
         int x = this.getX();
@@ -165,11 +172,18 @@ public abstract class Personagem {
         int textoY = y - 20;  // 20 pixels acima da cabeça
 
         g.setColor(Color.BLACK);
-        g.drawString(texto, textoX, textoY);
+        if(this.esquivando){
+            g.drawString(texto, textoX, textoY);
+        }
+        g.drawString("", textoX, textoY);
     }
 
     public final void alterarEsquivando(){
         this.esquivando = !this.esquivando;
+    }
+
+    public final boolean getEsquivando(){
+        return this.esquivando;
     }
 
 }

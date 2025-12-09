@@ -24,6 +24,7 @@ public class Tela extends JPanel {
     private final Set<CriarRecurso> recursos;
     private final Map<Recurso, Integer> estoqueRecursos;
     private final Map<TipoPersonagem, Integer> MortesPorTipo;
+    private final Timer gameLoop;
 
     public Tela() {
 
@@ -39,7 +40,8 @@ public class Tela extends JPanel {
         for (TipoPersonagem p : TipoPersonagem.values()) {
             this.MortesPorTipo.put(p, 0);
         }
-
+        gameLoop = new Timer(1, e -> update()); // 60 FPS
+        gameLoop.start();
     }
 
     /**
@@ -51,7 +53,6 @@ public class Tela extends JPanel {
         super.paint(g);
 
         //TODO preciso ser melhorado
-
         // percorrendo a lista de aldeões e pedindo para cada um se desenhar na tela
         this.personagens.forEach(personagem -> personagem.desenhar(g, this));
         this.recursos.forEach(recurso -> recurso.desenhar(g, this));
@@ -138,8 +139,10 @@ public class Tela extends JPanel {
 //    /**
 //     * Altera o estado do aldeão de atacando para não atacando e vice-versa
 //     */
+
+
+    Set<Personagem> MortosParaRemover = new HashSet<>();
     public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
-        Set<Personagem> MortosParaRemover = new HashSet<>();
 
         this.personagens.stream()
                 .filter(clazz::isInstance)
@@ -160,20 +163,24 @@ public class Tela extends JPanel {
                             .forEach(q -> {
                                 g.atacar(q);
                                 this.repaint();
-                                if (q.getVida() <= 0 && q != null) {
+                                if (q.getVida() <= 0) {
                                     MortosParaRemover.add(q);
+                                    this.repaint();
                                     TipoPersonagem tipo = q.getTipo();
                                     this.MortesPorTipo.put(tipo, this.MortesPorTipo.get(tipo) + 1);
                                 }
                             });
                     // PERSONAGENS MORTOS SANGRAM POR UM TEMPO
-                    Timer t2 = new Timer(500, e -> {
-                        this.personagens.removeAll(MortosParaRemover);
-                    });
-                    t2.setRepeats(false);
-                    t2.start();
+//                    Timer t2 = new Timer(500, e -> {
+//                        this.personagens.removeAll(MortosParaRemover);
+//                    });
+//                    t2.setRepeats(false);
+//                    t2.start();
                     // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
                     Timer t = new Timer(150, e -> {
+                        this.personagens.stream()
+                                .filter(Personagem::getEsquivando)
+                                .forEach(Personagem::alterarEsquivando);
                         p.inverter();
                         p.zerarAlcanceAtaque();
                         this.repaint();
@@ -186,6 +193,20 @@ public class Tela extends JPanel {
         this.repaint();
     }
 
+    private void update() {
+        personagens.forEach(p -> {
+
+            // comemora esquiva por 150ms
+            if (p.getEsquivando() && System.currentTimeMillis() - p.tempoEsquiva > 150) {
+                p.alterarEsquivando();
+            }
+            // personagens mortos ficam 500ms e somem
+            if (p.getVida() <= 0 && System.currentTimeMillis() - p.tempoMorte > 500) {
+                personagens.removeAll(MortosParaRemover);
+            }
+        });
+        this.repaint();
+    }
 
     /**
      * Altera o estado do personage de montado para não montado e vice-versa

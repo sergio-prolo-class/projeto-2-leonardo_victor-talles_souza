@@ -45,7 +45,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     @Override
     public void desenhar(Graphics g, JPanel painel) {
 
-        if(this.esquivando) this.desenharEsquiva(g);
+        this.desenharEsquiva(g);
 
         // ---- desenhar aura de alcance -----
         desenharAlcanceAtaque(g);
@@ -83,14 +83,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     @Override
     public void atacar(Personagem p) {
         if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= this.alcanceAtaque) {
-            if(p.esquivar()){
-                p.alterarEsquivando();
-                Timer t = new Timer(150, e -> {
-                    p.alterarEsquivando();
-                });
-                t.setRepeats(false);
-                t.start();
-            }else {
+            if(! p.esquivar()){
                 p.sofreDano(this.ataque);
             }
         }
