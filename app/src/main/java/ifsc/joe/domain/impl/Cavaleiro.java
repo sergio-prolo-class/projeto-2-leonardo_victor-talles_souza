@@ -87,6 +87,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
                 p.sofreDano(this.ataque);
             }
         }
+        tempoAtaque = System.currentTimeMillis();
     }
 
     public void setAlcanceAtaque() {

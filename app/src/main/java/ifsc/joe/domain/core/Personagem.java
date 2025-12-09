@@ -32,6 +32,7 @@ public abstract class Personagem {
     protected boolean esquivando;
     public long tempoEsquiva = 0;
     public long tempoMorte = 0;
+    public long tempoAtaque = 0;
 
 
 
@@ -184,6 +185,10 @@ public abstract class Personagem {
 
     public final boolean getEsquivando(){
         return this.esquivando;
+    }
+
+    public final int getAlcanceAtaque() {
+        return this.alcanceAtaque;
     }
 
 }

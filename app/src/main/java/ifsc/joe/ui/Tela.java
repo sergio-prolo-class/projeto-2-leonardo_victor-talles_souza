@@ -170,23 +170,6 @@ public class Tela extends JPanel {
                                     this.MortesPorTipo.put(tipo, this.MortesPorTipo.get(tipo) + 1);
                                 }
                             });
-                    // PERSONAGENS MORTOS SANGRAM POR UM TEMPO
-//                    Timer t2 = new Timer(500, e -> {
-//                        this.personagens.removeAll(MortosParaRemover);
-//                    });
-//                    t2.setRepeats(false);
-//                    t2.start();
-                    // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
-                    Timer t = new Timer(150, e -> {
-                        this.personagens.stream()
-                                .filter(Personagem::getEsquivando)
-                                .forEach(Personagem::alterarEsquivando);
-                        p.inverter();
-                        p.zerarAlcanceAtaque();
-                        this.repaint();
-                    });
-                    t.setRepeats(false);
-                    t.start();
 
                 });
 
@@ -194,19 +177,35 @@ public class Tela extends JPanel {
     }
 
     private void update() {
-        personagens.forEach(p -> {
 
-            // comemora esquiva por 150ms
+        Set<Personagem> removerAgora = new HashSet<>();
+
+        for (Personagem p : personagens) {
+
+            // --- inverter volta após ataque ---
+            if (p.getAlcanceAtaque() > 0 && System.currentTimeMillis() - p.tempoAtaque > 150) {
+                p.inverter();
+                p.zerarAlcanceAtaque();
+            }
+
+            // --- efeito esquiva dura 150ms ---
             if (p.getEsquivando() && System.currentTimeMillis() - p.tempoEsquiva > 150) {
                 p.alterarEsquivando();
             }
-            // personagens mortos ficam 500ms e somem
+
+            // --- personagem morto some após 500ms ---
             if (p.getVida() <= 0 && System.currentTimeMillis() - p.tempoMorte > 500) {
-                personagens.removeAll(MortosParaRemover);
+                removerAgora.add(p);
             }
-        });
+        }
+
+        // remove com segurança
+        personagens.removeAll(removerAgora);
+        MortosParaRemover.clear();
+
         this.repaint();
     }
+
 
     /**
      * Altera o estado do personage de montado para não montado e vice-versa
