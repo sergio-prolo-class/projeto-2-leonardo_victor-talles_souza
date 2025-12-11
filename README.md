@@ -1,4 +1,4 @@
-# 🛡️ Java of Empires – Projeto Integrador (POO)
+# 🛡️ Projeto 02 (POO) - Java of Empires
 
 **Disciplina:** Programação Orientada a Objetos  
 **Professor:** Sergio Maurício Prolo Santos Junior  
