@@ -97,7 +97,6 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
 
             //reduzindo flechas
         }
-        tempoAtaque = System.currentTimeMillis();
     }
     public void setAlcanceAtaque() {
         this.alcanceAtaque = Constantes.ARQUEIRO_ALCANCE_ATAQUE;

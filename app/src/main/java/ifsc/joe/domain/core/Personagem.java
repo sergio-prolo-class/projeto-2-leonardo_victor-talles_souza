@@ -27,12 +27,12 @@ public abstract class Personagem {
     protected double velocidade;
     protected int vida;
     protected boolean olhandoParaEsquerda;
-    protected int alcanceAtaque = 0;
+    protected int alcanceAtaque;
     protected double chanceDeEsquivar;
     protected boolean esquivando;
-    public long tempoEsquiva = 0;
-    public long tempoMorte = 0;
-    public long tempoAtaque = 0;
+    public long tempoEsquiva;
+    public long tempoMorte;
+    public long tempoAtaque;
 
 
 
@@ -40,22 +40,27 @@ public abstract class Personagem {
 
     // Construtor
     public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
-            this.tipo = Tipo;
-            this.chanceDeEsquivar = chanceDeEsquivar;
-            this.posX = posX;
-            this.posY = posY;
-            this.nomeImagemInicial = nomeImagemInicial;
-            this.nomeImagemInvertida = nomeImagemInvertida;
-            this.nomeImagemVariante = nomeImagemVariante;
-            this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
-            this.velocidade = velocidade;
-            this.vida = vida;
+        this.tipo = Tipo;
+        this.chanceDeEsquivar = chanceDeEsquivar;
+        this.posX = posX;
+        this.posY = posY;
+        this.nomeImagemInicial = nomeImagemInicial;
+        this.nomeImagemInvertida = nomeImagemInvertida;
+        this.nomeImagemVariante = nomeImagemVariante;
+        this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
+        this.velocidade = velocidade;
+        this.vida = vida;
 
-            this.olhandoParaEsquerda = true;
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = ResourceManager.getImagens(nomeImagemVariante);
         this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
+
+        this.olhandoParaEsquerda = true;
+        this.alcanceAtaque = 0;
+        this.tempoEsquiva = 0;
+        this.tempoMorte = 0;
+        this.tempoAtaque = 0;
     }
 
     public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
@@ -70,7 +75,12 @@ public abstract class Personagem {
         this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = null;
+
         this.olhandoParaEsquerda = true;
+        this.alcanceAtaque = 0;
+        this.tempoEsquiva = 0;
+        this.tempoMorte = 0;
+        this.tempoAtaque = 0;
     }
 
     /**
