@@ -190,7 +190,7 @@ public class Tela extends JPanel {
             }
 
             //personagem morto some após 500ms
-            if (p.getVida() <= 0 && System.currentTimeMillis() - p.tempoMorte > 500) {
+            if (p.getVida() <= 0 && System.currentTimeMillis() - p.tempoMorte > 900) {
                 removerAgora.add(p);
             }
         }

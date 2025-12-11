@@ -40,18 +40,6 @@ public abstract class Personagem {
     protected Image Sangramento = ResourceManager.getImagens(Constantes.SANGUE);
 
     // Construtor
-    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
-            this.tipo = Tipo;
-            this.alcanceAtaque = alcanceAtaque;
-            this.posX = posX;
-            this.posY = posY;
-            this.nomeImagemInicial = nomeImagemInicial;
-            this.nomeImagemInvertida = nomeImagemInvertida;
-            this.nomeImagemVariante = nomeImagemVariante;
-            this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
-            this.velocidade = velocidade;
-            this.vida = vida;
-            this.vidaMaxima = vida;
     public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
         this.tipo = Tipo;
         this.chanceDeEsquivar = chanceDeEsquivar;
@@ -63,6 +51,7 @@ public abstract class Personagem {
         this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
         this.velocidade = velocidade;
         this.vida = vida;
+        this.vidaMaxima = vida;
 
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = ResourceManager.getImagens(nomeImagemVariante);
