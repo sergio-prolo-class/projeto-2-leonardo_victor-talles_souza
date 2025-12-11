@@ -198,5 +198,5 @@ cd projeto-2-leonardo_victor-talles_souza
 
 * Windows:
 ``` bash
-* gradlew run
+gradlew run
 ```
