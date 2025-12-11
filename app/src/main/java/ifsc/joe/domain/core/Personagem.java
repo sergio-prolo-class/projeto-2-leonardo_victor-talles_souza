@@ -8,6 +8,7 @@ import ifsc.joe.ui.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Personagem {
     private final TipoPersonagem tipo;
@@ -27,6 +28,12 @@ public abstract class Personagem {
     protected int vida;
     protected boolean olhandoParaEsquerda;
     protected int alcanceAtaque;
+    protected double chanceDeEsquivar;
+    protected boolean esquivando;
+    public long tempoEsquiva;
+    public long tempoMorte;
+    public long tempoAtaque;
+
     protected final int vidaMaxima;
 
 
@@ -45,17 +52,33 @@ public abstract class Personagem {
             this.velocidade = velocidade;
             this.vida = vida;
             this.vidaMaxima = vida;
+    public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemVariante,String nomeImagemInvertida,String nomeImagemVarianteInvertida, double velocidade, int vida) {
+        this.tipo = Tipo;
+        this.chanceDeEsquivar = chanceDeEsquivar;
+        this.posX = posX;
+        this.posY = posY;
+        this.nomeImagemInicial = nomeImagemInicial;
+        this.nomeImagemInvertida = nomeImagemInvertida;
+        this.nomeImagemVariante = nomeImagemVariante;
+        this.nomeImagemVarianteInvertida = nomeImagemVarianteInvertida;
+        this.velocidade = velocidade;
+        this.vida = vida;
 
-            this.olhandoParaEsquerda = true;
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = ResourceManager.getImagens(nomeImagemVariante);
         this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemVarianteInvertida = ResourceManager.getImagens(nomeImagemVarianteInvertida);
+
+        this.olhandoParaEsquerda = true;
+        this.alcanceAtaque = 0;
+        this.tempoEsquiva = 0;
+        this.tempoMorte = 0;
+        this.tempoAtaque = 0;
     }
 
-    public Personagem(TipoPersonagem Tipo, int alcanceAtaque, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
+    public Personagem(TipoPersonagem Tipo, double chanceDeEsquivar, int posX, int posY, String nomeImagemInicial, String nomeImagemInvertida, double velocidade, int vida) {
         this.tipo = Tipo;
-        this.alcanceAtaque = alcanceAtaque;
+        this.chanceDeEsquivar = chanceDeEsquivar;
         this.posX = posX;
         this.posY = posY;
         this.nomeImagemInicial = nomeImagemInicial;
@@ -66,7 +89,12 @@ public abstract class Personagem {
         this.imagemInvertida = ResourceManager.getImagens(nomeImagemInvertida);
         this.imagemNormal = ResourceManager.getImagens(nomeImagemInicial);
         this.imagemVariante = null;
+
         this.olhandoParaEsquerda = true;
+        this.alcanceAtaque = 0;
+        this.tempoEsquiva = 0;
+        this.tempoMorte = 0;
+        this.tempoAtaque = 0;
     }
 
     /**
@@ -124,6 +152,8 @@ public abstract class Personagem {
 
     public final void sofreDano(int vida) {
         this.vida -= vida;
+        if (this.vida <= 0)
+            tempoMorte = System.currentTimeMillis();
         //O print é teste
         System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
     }
@@ -182,4 +212,44 @@ public abstract class Personagem {
         g.setColor(Color.BLACK);
         g.drawRect(barX, barY, barWidth, barHeight);
     }
+
+    public boolean esquivar() {
+        Random gerador = new Random();
+        if (gerador.nextDouble() < chanceDeEsquivar) {
+            esquivando = true;
+            tempoEsquiva = System.currentTimeMillis();
+            return true;
+        }
+        return false;
+    }
+
+
+    public final void desenharEsquiva(Graphics g){
+        int x = this.getX();
+        int y = this.getY();
+
+        String texto = "ESQUIVOU!";
+
+        int textoX = x;
+        int textoY = y - 20;  // 20 pixels acima da cabeça
+
+        g.setColor(Color.BLACK);
+        if(this.esquivando){
+            g.drawString(texto, textoX, textoY);
+        }
+        g.drawString("", textoX, textoY);
+    }
+
+    public final void alterarEsquivando(){
+        this.esquivando = !this.esquivando;
+    }
+
+    public final boolean getEsquivando(){
+        return this.esquivando;
+    }
+
+    public final int getAlcanceAtaque() {
+        return this.alcanceAtaque;
+    }
+
 }

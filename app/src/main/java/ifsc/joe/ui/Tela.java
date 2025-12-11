@@ -24,6 +24,7 @@ public class Tela extends JPanel {
     private final Set<CriarRecurso> recursos;
     private final Map<Recurso, Integer> estoqueRecursos;
     private final Map<TipoPersonagem, Integer> MortesPorTipo;
+    private final Timer gameLoop;
 
     public Tela() {
 
@@ -39,7 +40,8 @@ public class Tela extends JPanel {
         for (TipoPersonagem p : TipoPersonagem.values()) {
             this.MortesPorTipo.put(p, 0);
         }
-
+        gameLoop = new Timer(1, e -> update());
+        gameLoop.start();
     }
 
     /**
@@ -51,7 +53,6 @@ public class Tela extends JPanel {
         super.paint(g);
 
         //TODO preciso ser melhorado
-
         // percorrendo a lista de aldeões e pedindo para cada um se desenhar na tela
         this.personagens.forEach(personagem -> personagem.desenhar(g, this));
         this.recursos.forEach(recurso -> recurso.desenhar(g, this));
@@ -91,20 +92,20 @@ public class Tela extends JPanel {
         Set<CriarRecurso> recursosParaRemover = new HashSet<>();
 
         this.personagens.stream()
-                .filter(clazz::isInstance)
-                .forEach(personagem -> {
-                    this.recursos.iterator().forEachRemaining(r -> {
-                        if (distancia(r, personagem)) {
-                            Coletador coletador = clazz.cast(personagem);
-                            Recurso recursoColetado = coletador.coletar(r);
+            .filter(clazz::isInstance)
+            .forEach(personagem -> {
+                this.recursos.iterator().forEachRemaining(r -> {
+                    if (distancia(r, personagem)) {
+                        Coletador coletador = clazz.cast(personagem);
+                        Recurso recursoColetado = coletador.coletar(r);
 
-                            if (recursoColetado != null) {
-                                recursosParaRemover.add(r);
-                                this.estoqueRecursos.put(recursoColetado, this.estoqueRecursos.get(recursoColetado) + 1);
-                            }
+                        if (recursoColetado != null) {
+                            recursosParaRemover.add(r);
+                            this.estoqueRecursos.put(recursoColetado, this.estoqueRecursos.get(recursoColetado) + 1);
                         }
-                    });
+                    }
                 });
+            });
         this.recursos.removeAll(recursosParaRemover);
         this.repaint();
     }
@@ -128,9 +129,8 @@ public class Tela extends JPanel {
     public void movimentarPersonagem(Direcao direcao, Class<? extends Personagem> clazz) {
 
         this.personagens.stream()
-                .filter(clazz::isInstance)
-                .forEach(p -> p.mover(direcao, this.getWidth(), this.getHeight()));
-
+            .filter(clazz::isInstance)
+            .forEach(p -> p.mover(direcao, this.getWidth(), this.getHeight()));
         // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
         this.repaint();
     }
@@ -140,50 +140,63 @@ public class Tela extends JPanel {
 //     * presentes na tela. Se algum personagem tiver sua vida reduzida a zero ou menos durante o ataque, ele é marcado para remoção
 //     * e contabilizado no mapa MortesPorTipo.
 //     */
+
+
     public void atacarPersonagem(Class<? extends Guerreiro> clazz) {
-        Set<Personagem> MortosParaRemover = new HashSet<>();
 
         this.personagens.stream()
-                .filter(clazz::isInstance)
-                .filter(Guerreiro.class::isInstance)
-                .map(Guerreiro.class::cast)
-                .forEach(g -> {
+            .filter(clazz::isInstance)
+            .filter(Guerreiro.class::isInstance)
+            .map(Guerreiro.class::cast)
+            .forEach(g -> {
+                Personagem p = (Personagem) g;
 
-                    Personagem p = (Personagem) g;
+                // INVERTE O LADO AO ATACAR
+                p.inverter();
+                p.setAlcanceAtaque();
+                this.repaint();
 
-                    // INVERTE O LADO AO ATACAR
-                    p.inverter();
-                    p.setAlcanceAtaque();
-                    this.repaint();
-
-                    // ATACA
-                    this.personagens.stream()
-                            .filter(other -> other != p)
-                            .forEach(q -> {
-                                g.atacar(q);
-                                if (q.getVida() <= 0 && q != null) {
-                                    MortosParaRemover.add(q);
-                                    TipoPersonagem tipo = q.getTipo();
-                                    this.MortesPorTipo.put(tipo, this.MortesPorTipo.get(tipo) + 1);
-                                }
-                            });
-                    // PERSONAGENS MORTOS SANGRAM POR UM TEMPO
-                    Timer t2 = new Timer(500, e -> {
-                        this.personagens.removeAll(MortosParaRemover);
-                    });
-                    t2.setRepeats(false);
-                    t2.start();
-                    // VOLTA A OLHAR PARA O LADO ORIGINAL DEPOIS DE 150ms
-                    Timer t = new Timer(150, e -> {
-                        p.inverter();
-                        p.zerarAlcanceAtaque();
+                // ATACA
+                this.personagens.stream()
+                    .filter(other -> other != p)
+                    .forEach(q -> {
+                        g.atacar(q);
+                        p.tempoAtaque = System.currentTimeMillis();
                         this.repaint();
+                        if (q.getVida() <= 0) {
+                            this.repaint();
+                            TipoPersonagem tipo = q.getTipo();
+                            this.MortesPorTipo.put(tipo, this.MortesPorTipo.get(tipo) + 1);
+                        }
                     });
-                    t.setRepeats(false);
-                    t.start();
+            });
+        this.repaint();
+    }
 
-                });
+    private void update() {
+        Set<Personagem> removerAgora = new HashSet<>();
 
+        for (Personagem p : personagens) {
+
+            //gestos de ataque volta após ataque
+            if (p.getAlcanceAtaque() > 0 && System.currentTimeMillis() - p.tempoAtaque > 200) {
+                p.inverter();
+                p.zerarAlcanceAtaque();
+            }
+
+            //efeito esquiva dura 150ms
+            if (p.getEsquivando() && System.currentTimeMillis() - p.tempoEsquiva > 150) {
+                p.alterarEsquivando();
+            }
+
+            //personagem morto some após 500ms
+            if (p.getVida() <= 0 && System.currentTimeMillis() - p.tempoMorte > 500) {
+                removerAgora.add(p);
+            }
+        }
+
+        // remove com segurança
+        personagens.removeAll(removerAgora);
         this.repaint();
     }
 
@@ -194,10 +207,9 @@ public class Tela extends JPanel {
      */
     public void montarComMontaria(Class<? extends ComMontaria> clazz) {
         this.personagens.stream()
-                .filter(clazz::isInstance)
-                .map(clazz::cast)
-                .forEach(ComMontaria::alternarMontado);
-
+            .filter(clazz::isInstance)
+            .map(clazz::cast)
+            .forEach(ComMontaria::alternarMontado);
         // Fazendo o JPanel ser redesenhado
         this.repaint();
     }

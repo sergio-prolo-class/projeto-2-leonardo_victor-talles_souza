@@ -21,7 +21,7 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     // Construtor
     public Cavaleiro(int posX, int posY) {
         super(TipoPersonagem.CAVALEIRO,
-                0,
+                0.25,
                 posX,
                 posY,
                 Constantes.NOME_IMAGEM_CAVALEIRO_MONTADO,
@@ -42,9 +42,11 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      *
      * @param g objeto do JPanel que será usado para desenhar o Aldeão
      */
-
     @Override
     public void desenhar(Graphics g, JPanel painel) {
+
+        this.desenharEsquiva(g);
+
         drawBarra(g);
         // ---- desenhar aura de alcance -----
         desenharAlcanceAtaque(g);
@@ -82,8 +84,9 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
     @Override
     public void atacar(Personagem p) {
         if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= this.alcanceAtaque) {
-            p.sofreDano(this.ataque);
-
+            if(! p.esquivar()){
+                p.sofreDano(this.ataque);
+            }
         }
     }
 
