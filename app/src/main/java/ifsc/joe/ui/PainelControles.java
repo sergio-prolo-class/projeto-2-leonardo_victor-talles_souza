@@ -327,7 +327,7 @@ public class PainelControles {
      * Metodo que escolhe um recurso aleatório a cada tempo determinado
      */
     private void iniciarGeradorRecursos() {
-        Timer timer = new Timer(Constantes.DELAY, e -> {
+        Timer timer = new Timer(Constantes.DELAY_CRIACAO_RECURSO, e -> {
             Recurso[] recursos = Recurso.values();
             Recurso recursoSorteado = recursos[sorteio.nextInt(recursos.length)];
             getTela().criarRecurso(recursoSorteado, posicaoCriacao()[0], posicaoCriacao()[1]);

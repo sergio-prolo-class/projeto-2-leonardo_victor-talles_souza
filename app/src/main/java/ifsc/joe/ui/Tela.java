@@ -200,7 +200,6 @@ public class Tela extends JPanel {
         this.repaint();
     }
 
-
     /**
      * Altera o estado do personage de montado para não montado e vice-versa
      *

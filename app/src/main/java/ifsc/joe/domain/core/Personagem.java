@@ -2,7 +2,6 @@ package ifsc.joe.domain.core;
 
 import ifsc.joe.consts.Constantes;
 import ifsc.joe.enums.Direcao;
-import ifsc.joe.enums.Recurso;
 import ifsc.joe.enums.TipoPersonagem;
 import ifsc.joe.ui.ResourceManager;
 
@@ -119,7 +118,6 @@ public abstract class Personagem {
         this.posY = Math.min(Math.max(0, this.posY), maxAltura - this.icone.getHeight(null));
     }
 
-
     public final double getVelocidade() {
         return velocidade;
     }
@@ -169,7 +167,6 @@ public abstract class Personagem {
         }
     }
 
-
     public final void drawBarra(Graphics g) {
         int x = this.getX();
         int y = this.getY();
@@ -211,7 +208,6 @@ public abstract class Personagem {
         }
         return false;
     }
-
 
     public final void desenharEsquiva(Graphics g){
         int x = this.getX();

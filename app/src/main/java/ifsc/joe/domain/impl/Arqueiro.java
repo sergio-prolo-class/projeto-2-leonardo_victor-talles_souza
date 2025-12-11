@@ -17,8 +17,6 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
 
     public static final Set<Recurso> COLETAVEIS;
     private int flechas;
-    private int madeiraColetada;
-    private int comidaColetada;
     private int ataque;
 
     static {

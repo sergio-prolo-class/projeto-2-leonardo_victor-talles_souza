@@ -11,14 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
-import static java.lang.Math.pow;
-
 public class Aldeao extends Personagem implements ComMontaria, Coletador {
 
     public static final Set<Recurso> COLETAVEIS;
     private boolean montado;
-    private int comidaColetada;
-    private int ouroColetado;
 
     static {
         COLETAVEIS = Set.of(Recurso.COMIDA, Recurso.OURO);

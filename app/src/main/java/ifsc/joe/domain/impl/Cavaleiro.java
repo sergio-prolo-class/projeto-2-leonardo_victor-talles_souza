@@ -8,10 +8,8 @@ import ifsc.joe.enums.TipoPersonagem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Set;
 
 import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 
 public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
 
