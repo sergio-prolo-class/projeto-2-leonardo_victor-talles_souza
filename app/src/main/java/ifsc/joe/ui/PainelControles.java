@@ -71,6 +71,7 @@ public class PainelControles {
         configurarKeyBindings();
         table();
         desativarTeclas();
+        setFocusable();
     }
 
     /**
@@ -223,8 +224,6 @@ public class PainelControles {
             getTela().atacarPersonagem(clazz);
             table();
         });
-        montarButton.setFocusable(false);
-
     }
 
     /**
@@ -250,7 +249,6 @@ public class PainelControles {
         removerTodosActionListeners(montarButton);
         montarButton.setEnabled(true);
         montarButton.addActionListener(e -> getTela().montarComMontaria(clazz));
-        montarButton.setFocusable(false);
     }
 
     /**
@@ -372,6 +370,26 @@ public class PainelControles {
         for (ActionListener al : button.getActionListeners()) {
             button.removeActionListener(al);
         }
+    }
+
+    /**
+     * Metodo usado para remover o foco do painel ao ser clicado com o mouse
+     */
+    private void setFocusable() {
+        bCriaAldeao.setFocusable(false);
+        bCriaArqueiro.setFocusable(false);
+        bCriaCavaleiro.setFocusable(false);
+        buttonCima.setFocusable(false);
+        buttonBaixo.setFocusable(false);
+        buttonEsquerda.setFocusable(false);
+        buttonDireita.setFocusable(false);
+        atacarButton.setFocusable(false);
+        coletarButton.setFocusable(false);
+        montarButton.setFocusable(false);
+        todosRadioButton.setFocusable(false);
+        aldeaoRadioButton.setFocusable(false);
+        arqueiroRadioButton.setFocusable(false);
+        cavaleiroRadioButton.setFocusable(false);
     }
 
     /**
