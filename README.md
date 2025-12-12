@@ -152,21 +152,6 @@ Benefícios:
 
 ---
 
-[//]: # (## ✔️ Arquivo de Configurações)
-
-[//]: # ()
-[//]: # (As configurações do jogo são isoladas em um arquivo externo, permitindo:)
-
-[//]: # ()
-[//]: # (- Ajuste rápido de parâmetros)
-
-[//]: # (- Balanceamento facilitado)
-
-[//]: # (- Evitar recompilar o projeto desnecessariamente)
-
-
-[//]: # (---)
-
 # 🚀 Como Executar o Projeto
 
 ## Pré-requisitos

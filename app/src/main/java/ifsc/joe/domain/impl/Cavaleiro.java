@@ -42,7 +42,6 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
      */
     @Override
     public void desenhar(Graphics g, JPanel painel) {
-
         this.desenharEsquiva(g);
 
         drawBarra(g);
@@ -57,8 +56,6 @@ public class Cavaleiro extends Personagem implements ComMontaria, Guerreiro {
         }else{
             this.icone = this.olhandoParaEsquerda ? this.imagemVariante : this.imagemVarianteInvertida;
         }
-
-
 
         g.drawImage(this.icone, this.posX, this.posY, painel);
         // desenhando de fato a imagem no pai

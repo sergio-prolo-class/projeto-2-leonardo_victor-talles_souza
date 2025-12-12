@@ -69,24 +69,9 @@ public class Arqueiro extends Personagem implements Coletador, Guerreiro {
         return p.getTipo();
     }
 
-    // TODO ver como vai ser implementado esses métodos
-//    public String produzirFlechas() {
-//        if (this.madeiraColetada == 0) return "Arqueiro sem madeira para produção!";
-//        this.madeiraColetada--;
-//        return this.recarregarFlechas(Constantes.ARQUEIRO_FLECHAS_PRODUCAO);
-//    }
-//
-//    public String recarregarFlechas(int quant) {
-//        if (quant <= 0) return "Não é possível recarregar flechas negativas!";
-//        this.flechas +=  quant;
-//        return String.format("Arqueiro agora com %d flechas%n", quant);
-//    }
-
     /**
      * Metodo de ataque
-     *
      */
-
     @Override
     public void atacar(Personagem p) {
         if(Math.sqrt(pow((p.getX() - this.posX),2) + pow((p.getY() - this.posY),2)) <= this.alcanceAtaque) {

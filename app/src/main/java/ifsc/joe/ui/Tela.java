@@ -74,9 +74,9 @@ public class Tela extends JPanel {
     /**
      * Desenha-o neste JPanel, e adiciona o recurso na coleção
      *
-     * @param recurso
-     * @param posX
-     * @param posY
+     * @param recurso tipo que será criado
+     * @param posX posição do eixo X que será criado
+     * @param posY posição do eixo Y que será criado
      */
     public void criarRecurso(Recurso recurso, int posX, int posY) {
         this.recursos.add(new CriarRecurso(recurso, posX, posY));
@@ -86,7 +86,7 @@ public class Tela extends JPanel {
     /**
      * Coleta os recursos próximos ao personagem
      *
-     * @param clazz
+     * @param clazz personagem que implementa coletador que irá coletar
      */
     public void coletarRecurso(Class<? extends Coletador> clazz) {
         Set<CriarRecurso> recursosParaRemover = new HashSet<>();
@@ -113,8 +113,8 @@ public class Tela extends JPanel {
     /**
      * Verifica a distância entre os recursos e o personagem
      *
-     * @param recurso
-     * @param personagem
+     * @param recurso que será usado para calcular a distância de um personagem
+     * @param personagem que será usado para calcular a distância de um recurso
      * @return boolean
      */
     public boolean distancia(CriarRecurso recurso, Personagem personagem){

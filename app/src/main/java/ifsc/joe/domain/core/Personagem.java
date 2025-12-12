@@ -133,6 +133,7 @@ public abstract class Personagem {
     public final int getX() {
         return this.posX;
     }
+
     public final int getY() {
         return this.posY;
     }
@@ -141,8 +142,6 @@ public abstract class Personagem {
         this.vida -= vida;
         if (this.vida <= 0)
             tempoMorte = System.currentTimeMillis();
-        //O print é teste
-        System.out.println("Personagem em (" + this.posX + "," + this.posY + ") sofreu " + vida + " de dano. Vida restante: " + this.vida + "\n");
     }
 
     public final void inverter(){

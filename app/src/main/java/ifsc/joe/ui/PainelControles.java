@@ -192,13 +192,14 @@ public class PainelControles {
     }
 
     /**
-     * metodo que configura o botão para uma uma determinada ação
+     * Configura um botão específico para executar uma ação, baseando-se na compatibilidade
+     * entre a ‘interface’ esperada e a classe do personagem.
      *
-     * @param interfaceEsperada
-     * @param personagemClass
-     * @param configurador
-     * @param button
-     * @param <T>
+     * @param <T> O tipo de interface (tela, resultado, ou objeto) que se espera receber ou manipular.
+     * @param interfaceEsperada A classe ou ‘interface’ que define o tipo de retorno ou a ação esperada.
+     * @param personagemClass A classe que estende Personagem e que será usada como base para a configuração.
+     * @param configurador Uma função (Consumer) que aceita a classe do tipo <T> para realizar a lógica de configuração (ex: setar um Listener).
+     * @param button O componente JButton a ser configurado (habilitado ou desabilitado).
      */
     private <T> void configurarBotaoEspecifico(Class<T> interfaceEsperada,
                                                Class<? extends Personagem> personagemClass,
@@ -229,7 +230,7 @@ public class PainelControles {
     /**
      * Configura o listener do botão de coletar
      *
-     * @param clazz
+     * @param clazz A classe que implementa Coletador e que será usada coletar os recursos.
      */
     private void configurarBotaoColetar(Class<? extends Coletador> clazz) {
         this.classeColetadorAtual = clazz;
@@ -354,7 +355,7 @@ public class PainelControles {
     /**
      * Metodo para fazer o sorteio da posição inicial
      *
-     * @return
+     * @return int[]
      */
     public int[] posicaoCriacao() {
         int[] xy = new int[2];

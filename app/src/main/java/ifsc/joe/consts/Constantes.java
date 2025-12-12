@@ -5,8 +5,6 @@ import java.awt.event.KeyEvent;
 
 public final class Constantes {
 
-    public static final String SANGUE = "sangue";
-
     // Constates da criação das imagens
     public static final String NOME_IMAGEM_ALDEAO = "aldeao3";
     public static final String NOME_IMAGEM_ALDEAO_INVERTIDA = "aldeaoInvertido";
@@ -19,11 +17,10 @@ public final class Constantes {
 
     public static final String NOME_IMAGEM_CAVALEIRO_MONTADO_INVERTIDA =  "cavaleiroInvertido";
     public static final String NOME_IMAGEM_ALDEAO_MONTADO_INVERTIDA = "aldeao-montado-invertido";
-    public static final String nomeImagemSangue = "sangue";
+    public static final String SANGUE = "sangue";
 
     // Constantes do Aldeão
     public static final int ALDEAO_VIDA_INICIAL = 25;
-    public static final int ALDEAO_ATAQUE = 1;
     public static final double ALDEAO_VELOCIDADE = 0.8;
     public static final double ALDEAO_VELOCIDADE_MONTADO = 1.8;
     public static final int ALDEAO_ALCANCE_ATAQUE = 50;
@@ -40,13 +37,12 @@ public final class Constantes {
     public static final int ARQUEIRO_ATAQUE = 2;
     public static final double ARQUEIRO_VELOCIDADE = 1;
     public static final int ARQUEIRO_FLECHAS_INICIAL = 5;
-    public static final int ARQUEIRO_FLECHAS_PRODUCAO = 10;
     public static final int ARQUEIRO_ALCANCE_ATAQUE = 150;
 
     public static final int PADDING = 50;
     public static final String TITULO = "Java of Empires";
 
-
+    // Teclas do teclado usadas nos atalho no jogo
     public static final KeyStroke KY_1 = KeyStroke.getKeyStroke(KeyEvent.VK_1, 0);
     public static final KeyStroke KY_2 = KeyStroke.getKeyStroke(KeyEvent.VK_2, 0);
     public static final KeyStroke KY_3 = KeyStroke.getKeyStroke(KeyEvent.VK_3, 0);
@@ -59,6 +55,7 @@ public final class Constantes {
     public static final KeyStroke KY_RIGHT = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
     public static final KeyStroke KY_DOWN = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
 
+    // nome das keys usadas para o atalho do teclado
     public static final String CRIAR_ALDEAO = "criarAldeao";
     public static final String CRIAR_CAVALEIRO = "criarCavaleiro";
     public static final String CRIAR_ARQUEIRO = "criarArqueiro";
@@ -73,6 +70,7 @@ public final class Constantes {
 
     public static final int DELAY_CRIACAO_RECURSO = 5000;
 
+    // Cabeçalho das tabelas
     public static final String[] COLUNA = {"Ouro", "Madeira", "Comida"};
     public static final String[] COLUNA_MORRTES = {"Aldeões", "Cavaleiros", "Arqueiros"};
 }
