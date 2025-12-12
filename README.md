@@ -185,3 +185,5 @@ cd projeto-2-leonardo_victor-talles_souza
 ``` bash
 gradlew run
 ```
+
+Projeto feito por [LeonardoVictorMuller](https://github.com/LeonardoVictorMuller) e [SouzaTalles](https://github.com/SouzaTalles)
