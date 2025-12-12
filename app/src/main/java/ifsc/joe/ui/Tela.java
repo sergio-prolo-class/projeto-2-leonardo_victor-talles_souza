@@ -156,7 +156,7 @@ public class Tela extends JPanel {
 
                 // ATACA
                 this.personagens.stream()
-                    .filter(other -> other != p)
+                    .filter(other -> other != p && other.getVida() > 0)
                     .forEach(q -> {
                         g.atacar(q);
                         p.tempoAtaque = System.currentTimeMillis();
