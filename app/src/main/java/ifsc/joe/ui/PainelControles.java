@@ -391,6 +391,8 @@ public class PainelControles {
         aldeaoRadioButton.setFocusable(false);
         arqueiroRadioButton.setFocusable(false);
         cavaleiroRadioButton.setFocusable(false);
+        mortes.setFocusable(false);
+        recursos.setFocusable(false);
     }
 
     /**
